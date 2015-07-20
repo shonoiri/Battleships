@@ -4,7 +4,7 @@ public class Cell {
 
 	public Cell(Coordinate c) {
 		this.c = c;
-		state = CellStates.water;
+		state = CellStates.Water;
 	}
 
 }
