@@ -8,6 +8,8 @@ interface User {
 
 	public int getOrientation();
 
+	public void shoot(SeaField field);
+
 	public boolean isLooser();
 
 	static Scanner sc = new Scanner(System.in);
