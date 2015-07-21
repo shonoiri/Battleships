@@ -1,4 +1,3 @@
 public enum CellStates {
-	ship, woter, block, visited
-	
+	Ship, Water, SunkShip, TemporaryBlocked, Shooted;
 }
