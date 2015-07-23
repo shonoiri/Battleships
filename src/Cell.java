@@ -4,15 +4,22 @@ public class Cell {
 
 	public Cell(Coordinate c) {
 		this.c = c;
-		state = CellStates.Water;
+		state = CellStates.WATER;
 	}
-	public CellStates getState(){
+
+	public CellStates getState() {
 		return state;
 	}
-	public void setState(CellStates state){
+
+	public void setState(CellStates state) {
 		this.state = state;
-		
 	}
 
+	public Coordinate getCellCoordinate() {
+		return c;
+	}
 
+	public void setCellCoordinate(Coordinate c) {
+		this.c = c;
+	}
 }
