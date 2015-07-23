@@ -41,10 +41,10 @@ public class GameController {
 		do{
 		System.out.println("orient");
 		orient = sc.nextInt();
-		if(orient !=1||orient!=2||orient!=3||orient !=4){
-			System.out.println("Incorrect orien ");
+		if(orient !=1&&orient!=2&&orient!=3&&orient !=4){
+			System.out.println("Incorrect orientation ");
 		}
-		}while(orient !=1||orient!=2||orient!=3||orient !=4);
+		}while(orient !=1&&orient!=2&&orient!=3&&orient !=4);
 		return orient;
 	}
 
@@ -54,7 +54,8 @@ public class GameController {
 
 		for (int i = Math.min(c.getX(), lc.getX()); i <= Math.max(c.getX(), lc.getX()); i++) {
 			for (int j = Math.min(c.getY(), lc.getY()); j <= Math.max(c.getY(), lc.getY()); j++) {
-				if (fd.getCell(i, j).getState() != CellStates.WATER) {
+				Coordinate temp = new Coordinate(i,j);
+				if (fd.getCell(temp).getState() != CellStates.WATER) {
 					canSetShip = false;
 					break;
 				}
@@ -88,7 +89,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, human.getField())) {
 							ship = new Ship(c, human.getField(), lc);
-							ship.setNumberOfLifes(i);
+							//ship.setNumberOfLifes(i);
 							human.getField().getShips().add(ship);
 						} else {
 							System.out.println("Can't set ship , please input correct coordinate ");
@@ -101,7 +102,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, human.getField())) {
 							ship = new Ship(c, human.getField(), lc);
-							ship.setNumberOfLifes(i);
+							//ship.setNumberOfLifes(i);
 							human.getField().getShips().add(ship);
 						} else {
 							System.out.println("Can't set ship , please input correct coordinate ");
@@ -114,7 +115,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, human.getField())) {
 							ship = new Ship(c, human.getField(), lc);
-							ship.setNumberOfLifes(i);
+							//ship.setNumberOfLifes(i);
 							human.getField().getShips().add(ship);
 						} else {
 							System.out.println("Can't set ship , please input correct coordinate ");
@@ -127,7 +128,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, human.getField())) {
 							ship = new Ship(c, human.getField(), lc);
-							ship.setNumberOfLifes(i);// sizeof
+							//ship.setNumberOfLifes(i);// sizeof
 							human.getField().getShips().add(ship);
 						} else {
 							System.out.println("Can't set ship , please input correct coordinate ");
@@ -185,7 +186,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, robot.getField())) {
 							ship = new Ship(c, robot.getField(), lc);
-							ship.setNumberOfLifes(i);
+							//ship.setNumberOfLifes(i);
 							robot.getField().getShips().add(ship);
 							setShip = true;
 						} else {
@@ -198,7 +199,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, robot.getField())) {
 							ship = new Ship(c, robot.getField(), lc);
-							ship.setNumberOfLifes(i);
+							//ship.setNumberOfLifes(i);
 							robot.getField().getShips().add(ship);
 							setShip = true;
 						} else {
@@ -211,7 +212,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, robot.getField())) {
 							ship = new Ship(c, robot.getField(), lc);
-							ship.setNumberOfLifes(i);
+							//ship.setNumberOfLifes(i);
 							robot.getField().getShips().add(ship);
 							setShip = true;
 						} else {
@@ -224,7 +225,7 @@ public class GameController {
 						lc = new Coordinate(x, y);
 						if (lc.inRange() && canSetShip(c, lc, robot.getField())) {
 							ship = new Ship(c, robot.getField(), lc);
-							ship.setNumberOfLifes(i);
+							//ship.setNumberOfLifes(i);
 							robot.getField().getShips().add(ship);
 							setShip = true;
 						} else {
@@ -238,38 +239,27 @@ public class GameController {
 		robot.getField().showMap();
 	}
 
-	private boolean cathShip(Coordinate c, Ship ship) {
-
-		for (int a = ship.fc.getX(); a <= ship.lc.getX(); a++) {
-			for (int b = ship.fc.getY(); b <= ship.lc.getY(); b++) {
-				Coordinate c1 = new Coordinate(a, b);
-				if ((c.getX() == c1.getX()) && (c.getY() == c1.getY())) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}	
-
 	private void humanMove(SeaField field) {
 		Coordinate c;
+		Cell cel;
 		do {
 			c = askHumanCoordinate();
-			if (field.getCell(c.getX(), c.getY()).getState() == CellStates.SHOT
-					|| field.getCell(c.getX(), c.getY()).getState() == CellStates.SUNKSHIP) {
+			if (field.getCell(c).getState() == CellStates.SHOT
+					|| field.getCell(c).getState() == CellStates.SUNKSHIP) {
 				System.out.println("ty byl zdes' , ustalyj putnik, idi v drugoe mesto ");
 			}
-		} while (field.getCell(c.getX(), c.getY()).getState() == CellStates.SHOT
-				|| field.getCell(c.getX(), c.getY()).getState() == CellStates.SUNKSHIP);
-
+		} while (field.getCell(c).getState() == CellStates.SHOT
+				|| field.getCell(c).getState() == CellStates.SUNKSHIP);
+		cel = field.getCell(c);
 		for (Ship item : field.getShips()) {
 
-			if (cathShip(c, item)) {
+			if (item.getShip().contains(cel)) {
 
-				field.getCell(c.getX(), c.getY()).setState(CellStates.SUNKSHIP);
-				item.setNumberOfLifes(item.getNumberOfLifes() - 1);
+				cel.setState(CellStates.SUNKSHIP);
+				//item.setNumberOfLifes(item.getNumberOfLifes() - 1);
+				item.getShip().remove(cel);
 
-				if (item.getNumberOfLifes() == 0) {
+				if (item.getShip().isEmpty()) {
 					item.setState(ShipStates.Sunk);
 					field.getShips().remove(item);
 					if (field.getShips().isEmpty()) {
@@ -281,41 +271,43 @@ public class GameController {
 				humanMove(field);
 				break;
 			} else{
-				field.getCell(c.getX(), c.getY()).setState(CellStates.SHOT);
+				cel.setState(CellStates.SHOT);
 			}
 		}
-		field.showMap();
+		field.showField();
 		if(field.getShips().isEmpty()){endGame = true;}
 	}
 
 	private void robotMove(SeaField field) {
+		Cell cel;
 		Coordinate c;
 		do {
 			c = generateRobotCoordinate();
-		} while (field.getCell(c.getX(), c.getY()).getState() == CellStates.SHOT
-				|| field.getCell(c.getX(), c.getY()).getState() == CellStates.SUNKSHIP);
-
+		} while ((field.getCell(c).getState() == CellStates.SHOT)
+				|| (field.getCell(c).getState() == CellStates.SUNKSHIP));
+		cel = field.getCell(c);
 		for (Ship item : field.getShips()) {
 
-			if (cathShip(c, item)) {
+			if (item.getShip().contains(cel)) {
 
-				field.getCell(c.getX(), c.getY()).setState(CellStates.SUNKSHIP);
-				item.setNumberOfLifes(item.getNumberOfLifes() - 1);
+				cel.setState(CellStates.SUNKSHIP);
+				//item.setNumberOfLifes(item.getNumberOfLifes() - 1);
+				item.getShip().remove(cel);
 
-				if (item.getNumberOfLifes() == 0) {
+				if (item.getShip().isEmpty()) {
 					item.setState(ShipStates.Sunk);
 					field.getShips().remove(item);
 					if (field.getShips().isEmpty()) {
+						endGame = true;
 						break;
 					}
-				} else {
-					item.setState(ShipStates.Deaed);
-				}
+				} 
 				robotMove(field);
 				break;
-			} else {
-				field.getCell(c.getX(), c.getY()).setState(CellStates.SHOT);
+			} 
 			}
+		if(cel.getState() != CellStates.SUNKSHIP){
+			cel.setState(CellStates.SHOT);
 		}
 		field.showMap();
 		if(field.getShips().isEmpty()){endGame = true;}

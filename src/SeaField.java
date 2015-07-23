@@ -14,11 +14,29 @@ public class SeaField {
 		this.ships = ships;		
 	}
 	
-	public Cell getCell(int x, int y) {
-		return field[x][y];
+	public Cell getCell(Coordinate c) {
+		return field[c.getX()][c.getY()];
 	}
+	
+	public void showMap(){		
+		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
+	for (int i = 0; i < 10; i++) {
+		System.out.print(i + " |");
+		for (int j = 0; j < 10; j++) {
+			if (this.field[j][ i].getState() == CellStates.SHOT) {
+				System.out.print("* ");
+			} else if (this.field[j][ i].getState() == CellStates.SUNKSHIP) {
+				System.out.print("X ");
+			} else {
+				System.out.print("~ ");
+			}
+		}
+		System.out.println();
+	}
+	System.out.println();
+}
 
-	public void showMap() {
+	public void showField() {
 		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");
