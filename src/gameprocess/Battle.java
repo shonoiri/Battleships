@@ -1,3 +1,5 @@
+package gameprocess;
+import players.Robot;
 
 public class Battle {
 
@@ -6,8 +8,8 @@ public class Battle {
 		Robot r = new Robot();
 		Robot test = new Robot();
 
-		//Human h = new Human();
-		
+		// Human h = new Human();
+
 		GameController gc = new GameController(test, r);
 	}
 }

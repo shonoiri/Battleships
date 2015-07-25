@@ -1,3 +1,4 @@
+package gamestuff;
 
 public class Cell {
 	private CellStates state;
