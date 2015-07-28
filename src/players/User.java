@@ -4,6 +4,8 @@ import gameequipment.SeaField;
 
 public class User {
 	protected SeaField field;
+	
+	protected String username;
 
 	public SeaField getField() {
 		return this.field;

@@ -14,8 +14,8 @@ import gameequipment.ShipStates;
 
 public class GameController {
 	private boolean endGame;
-	private User robot;
-	private User human;
+	private User player1;
+	private User player2;
 	Scanner sc = new Scanner(System.in);
 
 	public GameController() {
@@ -35,101 +35,87 @@ public class GameController {
 		case 2:
 			System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
 			choise = sc.nextInt();
+
 				switch (choise) {
 				case 1:
-					this.human = new Robot();
+					this.player1 = new Robot();
+					creataAndSetShips(player1);
+					player1.getField().showMap();
 					break;
 				case 2:
-					this.human = new Human();
+					this.player1 = new Human();
+					creataAndSetShips(player1);
+					player1.getField().showField();
 					break;
 				}
-			robot = new Robot();
-			creataAndSetShips(this.robot, this.human);
-			attack(this.robot, this.human);
+				player2 = new Robot();
+				creataAndSetShips(player2);
+				player2.getField().showField();
+			attack(player1, player2);
 			break;
 		case 3:
 			System.out.println("Pogod' mil chelovek - ya s toboi !");
 			break;
-
+		default : System.out.println("Ty p'");
 		}
-
 	}
 
-	private void creataAndSetShips(User robot, User human) {
+	public void creataAndSetShips(User player) {
+
 		Coordinate coordinate;
 		Coordinate lc;
 		int orientace;
 		boolean setShip;
-		human.getField().showField();
 		for (int i = 1; i <= 4; i++) {
 			for (int j = 5 - i; j >= 1; j--) {
 				do {
-					coordinate = human.askCoordinateOfShip();
-					orientace = human.askOrientation();
+					coordinate = player.askCoordinateOfShip();
+					orientace = player.askOrientation();
 					lc = createLastCoordinate(coordinate, orientace, i);
-					if (canSetShip(coordinate, lc, human.getField())) {
-						Ship ship = new Ship(coordinate, human.getField(), lc);
-						human.getField().getShips().add(ship);
+					if (canSetShip(coordinate, lc, player.getField())) {
+						Ship ship = new Ship(coordinate, player.getField(), lc);
+						player.getField().getShips().add(ship);
 						setShip = true;
 					} else {
-						human.incorrectCoordinate();
+						player.incorrectCoordinate();
 						setShip = false;
 					}
 				} while (!setShip);
 			}
 		}
-		human.getField().showField();
-		for (int i = 1; i <= 4; i++) {
-			for (int j = 5 - i; j >= 1; j--) {
-				do {
-					coordinate = robot.askCoordinateOfShip();
-					orientace = robot.askOrientation();
-					lc = createLastCoordinate(coordinate, orientace, i);
-					if (canSetShip(coordinate, lc, robot.getField())) {
-						Ship ship = new Ship(coordinate, robot.getField(), lc);
-						robot.getField().getShips().add(ship);
-						setShip = true;
-					} else {
-						robot.incorrectCoordinate();
-						setShip = false;
-					}
-				} while (!setShip);
-			}
-		}
-		robot.getField().showMap();
 	}
-
-	private void attack(User robot, User human) {
+	
+	private void attack(User player1, User player2) {
 		Coordinate coordinate;
 		do {
-			coordinate = robot.move();
-			if (human.getField().getCell(coordinate).getState() == CellStates.SUNKSHIP
-					|| human.getField().getCell(coordinate).getState() == CellStates.SHOT) {
-				robot.incorrectCoordinate();
-				coordinate = robot.move();
+			coordinate = player1.move();
+			if (player2.getField().getCell(coordinate).getState() == CellStates.SUNKSHIP
+					|| player2.getField().getCell(coordinate).getState() == CellStates.SHOT) {
+				player1.incorrectCoordinate();
+				coordinate = player1.move();
 			}
-			if (checkMove(human.getField(), coordinate)) {
-				robot.missShot();
+			if (checkMove(player2.getField(), coordinate)) {
+				player1.missShot();
 			} else {
-				robot.goodShot();
+				player1.goodShot();
 			}
-			human.getField().showMap();
+			player2.getField().showMap();
 			if (endGame) {
 				System.out.println("My proigrali, komandir....");
 				break;
 			}
-			coordinate = human.move();
-			if (robot.getField().getCell(coordinate).getState() == CellStates.SUNKSHIP
-					|| robot.getField().getCell(coordinate).getState() == CellStates.SHOT) {
-				human.incorrectCoordinate();
-				coordinate = human.move();
+			coordinate = player2.move();
+			if (player1.getField().getCell(coordinate).getState() == CellStates.SUNKSHIP
+					|| player1.getField().getCell(coordinate).getState() == CellStates.SHOT) {
+				player2.incorrectCoordinate();
+				coordinate = player2.move();
 			}
-			if (checkMove(robot.getField(), coordinate)) {
-				human.missShot();
+			if (checkMove(player1.getField(), coordinate)) {
+				player2.missShot();
 			} else {
-				human.goodShot();
+				player2.goodShot();
 			}
-			human.getField().showField();
+			player2.getField().showField();
 			if (endGame) {
 				System.out.println("My pobedili, komandir!");
 				break;

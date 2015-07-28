@@ -3,13 +3,17 @@ import gameequipment.Coordinate;
 import gameequipment.SeaField;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Robot extends User {
 
 	public Robot() {
+		System.out.print("Kak chotite vraga obozvat' kapitan ? ");
+		String username = sc.nextLine();
+		this.username = username;
 		this.field = new SeaField();
 	}
-
+	Scanner sc = new Scanner(System.in);
 	@Override
 	public Coordinate askCoordinateOfShip() {
 		int a;
@@ -24,7 +28,7 @@ public class Robot extends User {
 
 	@Override
 	public void missShot() {
-		System.out.println("ha, ego konanir kosit kak drysch ot armii....");
+		System.out.println("ha, konanir " + this.username + " kosit kak drysch ot armii....");
 
 	}
 
@@ -49,7 +53,7 @@ public class Robot extends User {
 		a = rand.nextInt(10) + 0;
 		b = rand.nextInt(10) + 0;
 		Coordinate c = new Coordinate(a, b);
-		System.out.println("etot idiot lupit po " + a + ":" + b);
+		System.out.println("etot idiot " + this.username + " lupit po " + a + ":" + b);
 		return c;
 	}
 }
