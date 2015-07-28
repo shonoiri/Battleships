@@ -1,4 +1,8 @@
 package gameprocess;
+
+import java.util.Scanner;
+
+import players.Human;
 import players.Robot;
 import players.User;
 import gameequipment.Cell;
@@ -10,25 +14,53 @@ import gameequipment.ShipStates;
 
 public class GameController {
 	private boolean endGame;
-	private Robot robot;
-	//private Human human;
+	private User robot;
+	private User human;
+	Scanner sc = new Scanner(System.in);
 
-	public GameController() {}
-	
-	public void play(){
-		
-		robot = new Robot();
-		Robot human = new Robot();
-
-		creataAndSetShips(robot, human);
-		attack(robot, human);		
+	public GameController() {
 	}
-	
+
+	public void play() {
+		System.out.println("Ctho delaesh' zdes' salaga ?");
+		System.out.println("1: Piratskij kodex izuchaju, gospodin matros");
+		System.out.println("2: Pshel von , bitva u menia");
+		System.out.println("3: Da ya voobshe-to v bordel' idu ...");
+		int choise = sc.nextInt();
+		switch (choise) {
+		case 1:
+			System.out.println("Pravilo zdes' odno - nikakich pravil");
+			play();
+			break;
+		case 2:
+			System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
+			choise = sc.nextInt();
+				switch (choise) {
+				case 1:
+					this.human = new Robot();
+					break;
+				case 2:
+					this.human = new Human();
+					break;
+				}
+			robot = new Robot();
+			creataAndSetShips(this.robot, this.human);
+			attack(this.robot, this.human);
+			break;
+		case 3:
+			System.out.println("Pogod' mil chelovek - ya s toboi !");
+			break;
+
+		}
+
+	}
+
 	private void creataAndSetShips(User robot, User human) {
 		Coordinate coordinate;
 		Coordinate lc;
 		int orientace;
 		boolean setShip;
+		human.getField().showField();
 		for (int i = 1; i <= 4; i++) {
 			for (int j = 5 - i; j >= 1; j--) {
 				do {
@@ -82,7 +114,7 @@ public class GameController {
 				robot.goodShot();
 			}
 			human.getField().showMap();
-			if(endGame){
+			if (endGame) {
 				System.out.println("My proigrali, komandir....");
 				break;
 			}
@@ -97,13 +129,14 @@ public class GameController {
 			} else {
 				human.goodShot();
 			}
-			robot.getField().showField();
-			if(endGame){
+			human.getField().showField();
+			if (endGame) {
 				System.out.println("My pobedili, komandir!");
 				break;
 			}
 
 		} while (!endGame);
+		play();
 	}
 
 	private boolean canSetShip(Coordinate c, Coordinate lc, SeaField field) {

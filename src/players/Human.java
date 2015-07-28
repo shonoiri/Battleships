@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Human extends User {
 	private String username;
 
-	Human() {
+	public Human() {
 		System.out.print("Please, enter your name: ");
 		String username = sc.nextLine();
 		System.out.print("\nWelcome, " + username
@@ -57,7 +57,7 @@ public class Human extends User {
 	}
 
 	@Override
-	public Coordinate move() {
+	public Coordinate move() {		
 		System.out.println("kuda streliat' to budem kapitan ?");
 		Coordinate c;
 		do {
@@ -87,4 +87,5 @@ public class Human extends User {
 		System.out
 				.println("bocman, eta p'yanaya svin'ya opyat' chto-to naputal s coordinatami , kapitan .... ");
 	}
+
 }
