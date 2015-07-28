@@ -22,7 +22,7 @@ public class GameController {
 	}
 
 	public void play() {
-		System.out.println("Ctho delaesh' zdes' salaga ?");
+		System.out.println("\n Ctho delaesh' zdes' salaga ?\n");
 		System.out.println("1: Piratskij kodex izuchaju, gospodin matros");
 		System.out.println("2: Pshel von , bitva u menia");
 		System.out.println("3: Da ya voobshe-to v bordel' idu ...");
@@ -47,6 +47,9 @@ public class GameController {
 					creataAndSetShips(player1);
 					player1.getField().showField();
 					break;
+				default : System.out.println("Kapitan, krichite razborchivej ...");
+				choise = sc.nextInt();
+				break;
 				}
 				player2 = new Robot();
 				creataAndSetShips(player2);
@@ -54,9 +57,12 @@ public class GameController {
 			attack(player1, player2);
 			break;
 		case 3:
-			System.out.println("Pogod' mil chelovek - ya s toboi !");
+			System.out.println("Pogod', mil chelovek, - ya s toboi !");
 			break;
-		default : System.out.println("Ty p'");
+		default : System.out.println("Ty p'yan , salaga, otospis' i prichodi ...\n");
+		//System.out.println();
+		play();
+		break;
 		}
 	}
 
