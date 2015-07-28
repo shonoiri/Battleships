@@ -1,4 +1,5 @@
 package gameprocess;
+import players.Robot;
 import players.User;
 import gameequipment.Cell;
 import gameequipment.CellStates;
@@ -9,12 +10,20 @@ import gameequipment.ShipStates;
 
 public class GameController {
 	private boolean endGame;
+	private Robot robot;
+	//private Human human;
 
-	public GameController(User robot, User human) {
+	public GameController() {}
+	
+	public void play(){
+		
+		robot = new Robot();
+		Robot human = new Robot();
+
 		creataAndSetShips(robot, human);
-		attack(robot, human);
+		attack(robot, human);		
 	}
-//TODO METHOD PLAY
+	
 	private void creataAndSetShips(User robot, User human) {
 		Coordinate coordinate;
 		Coordinate lc;
