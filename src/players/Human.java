@@ -26,50 +26,83 @@ public class Human extends User {
 
 	@Override
 	public Coordinate askCoordinateOfShip() {
+		getField().showField();
 		System.out.println("Nu chto, " + this.username + ", kuda loshan' stavit' budem ?");
-		Coordinate c;
-		do {
-			System.out.print("x : ");
-			int a = sc.nextInt();
-			System.out.print("y : ");
-			int b = sc.nextInt();
+		Coordinate c = null;
+		int a = 0, b = 0;
+		char[] temp1, temp2;
+		
+		System.out.print("x : ");
+		temp1 = sc.next().toCharArray();
+		System.out.print("y : ");
+		temp2 = sc.next().toCharArray();
+		
+		if (temp1.length != 1 || temp2.length != 1) {
+			System.out.println("chet kak-to ne idet ..... \n");
+			askCoordinateOfShip();
+		} else {
+			a = Character.getNumericValue(temp1[0]);
+			b = Character.getNumericValue(temp2[0]);
 			c = new Coordinate(a, b);
+
 			if (!c.inRange()) {
-				System.out.println("chet kak=to ne idet ..... ");
+				System.out.println("chet kak-to ne idet ..... \n");
+				askCoordinateOfShip();
 			}
-		} while (!c.inRange());
+		}
 		return c;
 	}
 
 	@Override
 	public int askOrientation() {
-		int orient;
-		do {
-			System.out.println(" a vdol' ili poperek -to ?");
-			orient = sc.nextInt();
+		int orient = 0;
+		char[] temp;
+
+		System.out.println("\nA vdol' ili poperek -to ? \n 3: vpravo\n 1: vlevo \n 2: vverch \n 4: vniz \n");
+		temp = sc.next().toCharArray();
+		if (temp.length != 1) {
+			System.out.println("chet kak-to ne idet ..... \n");
+			askOrientation();
+		} else {
+			orient = Character.getNumericValue(temp[0]);
 			if (orient != 1 && orient != 2 && orient != 3 && orient != 4) {
 				System.out.println(" chet kak-to ne idet  jakor' ei v ..... ");
+				askOrientation();
+			} else {
+				orient = Character.getNumericValue(temp[0]);
 			}
-		} while (orient != 1 && orient != 2 && orient != 3 && orient != 4);
+		}
 		return orient;
 	}
 
 	@Override
 	public Coordinate move() {		
 		System.out.println(" kuda streliat' to budem kapitan ?");
-		Coordinate c;
-		do {
-			System.out.print("x : ");
-			int a = sc.nextInt();
-			System.out.print("y : ");
-			int b = sc.nextInt();
+		Coordinate c = null;
+		int a = 0, b = 0;
+		char[] temp1, temp2;
+		
+		System.out.print("x : ");
+		temp1 = sc.next().toCharArray();
+		System.out.print("y : ");
+		temp2 = sc.next().toCharArray();
+		
+		if (temp1.length != 1 || temp2.length != 1) {
+			System.out.println("chet kak-to ne idet ..... \n");
+			askCoordinateOfShip();
+		} else {
+			a = Character.getNumericValue(temp1[0]);
+			b = Character.getNumericValue(temp2[0]);
 			c = new Coordinate(a, b);
+
 			if (!c.inRange()) {
-				System.out.println(" chet kak=to ne idet ..... ");
+				System.out.println("chet kak-to ne idet ..... \n");
+				askCoordinateOfShip();
 			}
-		} while (!c.inRange());
+		}
 		return c;
 	}
+
 
 	@Override
 	public void missShot() {

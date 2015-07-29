@@ -39,7 +39,7 @@ public class SeaField {
 	}
 
 	public void showField() {
-		System.out.println("Polozhenie del takovo :  ");
+		System.out.println("\nPolozhenie del takovo :  ");
 		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");
@@ -59,7 +59,7 @@ public class SeaField {
 		System.out.println();
 	}
 
-	public SeaField() { // создаем пустое поле
+	public SeaField() { 
 		field = new Cell[VERTICAL_FIELD_SIZE][HORIZONTAL_FIELD_SIZE];
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {

@@ -22,52 +22,52 @@ public class GameController {
 	}
 
 	public void play() {
+		String choise;
 		System.out.println("\n Ctho delaesh' zdes' salaga ?\n");
 		System.out.println("1: Piratskij kodex izuchaju, gospodin matros");
 		System.out.println("2: Pshel von , bitva u menia");
 		System.out.println("3: Da ya voobshe-to v bordel' idu ...");
-		int choise = sc.nextInt();
+
+			choise = sc.nextLine();
+
 		switch (choise) {
-		case 1:
-			System.out.println("Pravilo zdes' odno - nikakich pravil");
+		case "1":
+			System.out.println("Kak govoril kucenko - pirkod eto nashe vse");
 			play();
 			break;
-		case 2:
+		case "2":
 			System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
-			choise = sc.nextInt();
 
+				choise = sc.nextLine();
 				switch (choise) {
-				case 1:
+				case "1":
 					this.player1 = new Robot();
 					creataAndSetShips(player1);
 					player1.getField().showMap(player1.getUsername());
 					break;
-				case 2:
+				case "2":
 					this.player1 = new Human();
-					player1.getField().showField();
 					creataAndSetShips(player1);
 					player1.getField().showField();
 					break;
 				default : System.out.println("Kapitan, krichite razborchivej ...");
-				choise = sc.nextInt();
-				break;
-				}
+					break;
+					}
+
 				player2 = new Robot();
 				creataAndSetShips(player2);
 				player2.getField().showField();
 			attack(player1, player2);
-			break;
-		case 3:
+		case "3":
 			System.out.println("Pogod', mil chelovek, - ya s toboi !");
 			break;
 		default : System.out.println("Ty p'yan , salaga, otospis' i prichodi ...\n");
-		//System.out.println();
 		play();
 		break;
 		}
 	}
 
-	public void creataAndSetShips(User player) {
+	private void creataAndSetShips(User player) {
 
 		Coordinate coordinate;
 		Coordinate lc;
@@ -90,6 +90,7 @@ public class GameController {
 				} while (!setShip);
 			}
 		}
+
 	}
 	
 	private void attack(User player1, User player2) {
@@ -157,7 +158,7 @@ public class GameController {
 
 	private Coordinate createLastCoordinate(Coordinate c, int orient, int len) {
 		int x, y;
-		Coordinate lc = null;
+		Coordinate lc = null  ;
 		switch (orient) {
 		case 1:
 			x = c.getX() - len + 1;
