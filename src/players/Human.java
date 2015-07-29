@@ -26,52 +26,54 @@ public class Human extends User {
 
 	@Override
 	public Coordinate askCoordinateOfShip() {
+		boolean corCor = false;
 		getField().showField();
 		System.out.println("Nu chto, " + this.username + ", kuda loshan' stavit' budem ?");
 		Coordinate c = null;
 		int a = 0, b = 0;
 		char[] temp1, temp2;
-		
-		System.out.print("x : ");
-		temp1 = sc.next().toCharArray();
-		System.out.print("y : ");
-		temp2 = sc.next().toCharArray();
-		
-		if (temp1.length != 1 || temp2.length != 1) {
-			System.out.println("chet kak-to ne idet ..... \n");
-			askCoordinateOfShip();
-		} else {
-			a = Character.getNumericValue(temp1[0]);
-			b = Character.getNumericValue(temp2[0]);
-			c = new Coordinate(a, b);
 
-			if (!c.inRange()) {
+		do {
+			System.out.print("x : ");
+			temp1 = sc.next().toCharArray();
+			System.out.print("y : ");
+			temp2 = sc.next().toCharArray();
+
+			if (temp1.length != 1 || temp2.length != 1) {
 				System.out.println("chet kak-to ne idet ..... \n");
-				askCoordinateOfShip();
+				corCor = false;
+			} else {
+				a = Character.getNumericValue(temp1[0]);
+				b = Character.getNumericValue(temp2[0]);
+				c = new Coordinate(a, b);
+				corCor = true;
+				if (!c.inRange()) {
+					System.out.println("chet kak-to ne idet ..... \n");
+					corCor = false;
+				}
 			}
-		}
+		} while (!corCor);
 		return c;
 	}
 
 	@Override
 	public int askOrientation() {
 		int orient = 0;
+		String temp1 = null;
 		char[] temp;
-
-		System.out.println("\nA vdol' ili poperek -to ? \n 3: vpravo\n 1: vlevo \n 2: vverch \n 4: vniz \n");
-		temp = sc.next().toCharArray();
-		if (temp.length != 1) {
-			System.out.println("chet kak-to ne idet ..... \n");
-			askOrientation();
-		} else {
+		boolean corOr = false;
+		do {
+			System.out.println("\nA vdol' ili poperek -to ? \n 3: vpravo\n 1: vlevo \n 2: vverch \n 4: vniz \n");
+			temp1 = sc.next();
+			temp = temp1.toCharArray();
 			orient = Character.getNumericValue(temp[0]);
-			if (orient != 1 && orient != 2 && orient != 3 && orient != 4) {
-				System.out.println(" chet kak-to ne idet  jakor' ei v ..... ");
-				askOrientation();
-			} else {
-				orient = Character.getNumericValue(temp[0]);
+			corOr = true;
+			if (temp.length != 1 || orient != 1 && orient != 2 && orient != 3
+					&& orient != 4) {
+				System.out.println("chet kak-to ne idet ..... \n");
+				corOr = false;
 			}
-		}
+		} while (!corOr);
 		return orient;
 	}
 

@@ -27,8 +27,8 @@ public class GameController {
 		System.out.println("1: Piratskij kodex izuchaju, gospodin matros");
 		System.out.println("2: Pshel von , bitva u menia");
 		System.out.println("3: Da ya voobshe-to v bordel' idu ...");
-
-			choise = sc.nextLine();
+		
+		choise = sc.nextLine();
 
 		switch (choise) {
 		case "1":
@@ -38,32 +38,36 @@ public class GameController {
 		case "2":
 			System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
 
-				choise = sc.nextLine();
-				switch (choise) {
-				case "1":
-					this.player1 = new Robot();
-					creataAndSetShips(player1);
-					player1.getField().showMap(player1.getUsername());
-					break;
-				case "2":
-					this.player1 = new Human();
-					creataAndSetShips(player1);
-					player1.getField().showField();
-					break;
-				default : System.out.println("Kapitan, krichite razborchivej ...");
-					break;
-					}
+			choise = sc.nextLine();
+			switch (choise) {
+			case "1":
+				this.player1 = new Robot();
+				creataAndSetShips(player1);
+				player1.getField().showMap(player1.getUsername());
+				break;
+			case "2":
+				this.player1 = new Human();
+				creataAndSetShips(player1);
+				player1.getField().showField();
+				break;
+			default:
+				System.out.println("Kapitan, krichite razborchivej ...");
+				break;
+			}
 
-				player2 = new Robot();
-				creataAndSetShips(player2);
-				player2.getField().showField();
+			player2 = new Robot();
+			creataAndSetShips(player2);
+			player2.getField().showField();
+
 			attack(player1, player2);
+
 		case "3":
 			System.out.println("Pogod', mil chelovek, - ya s toboi !");
 			break;
-		default : System.out.println("Ty p'yan , salaga, otospis' i prichodi ...\n");
-		play();
-		break;
+		default:
+			System.out.println("Ty p'yan , salaga, otospis' i prichodi ...\n");
+			play();
+			break;
 		}
 	}
 
@@ -77,7 +81,11 @@ public class GameController {
 			for (int j = 5 - i; j >= 1; j--) {
 				do {
 					coordinate = player.askCoordinateOfShip();
-					orientace = player.askOrientation();
+					if (i == 1) {
+						orientace = 3;
+					} else {
+						orientace = player.askOrientation();
+					}
 					lc = createLastCoordinate(coordinate, orientace, i);
 					if (canSetShip(coordinate, lc, player.getField())) {
 						Ship ship = new Ship(coordinate, player.getField(), lc);
