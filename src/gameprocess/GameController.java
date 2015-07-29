@@ -2,23 +2,23 @@ package gameprocess;
 
 import java.util.Scanner;
 
-import players.Human;
-import players.Robot;
-import players.User;
-import gameequipment.Cell;
-import gameequipment.CellStates;
-import gameequipment.Coordinate;
-import gameequipment.SeaField;
-import gameequipment.Ship;
-import gameequipment.ShipStates;
+import players.*;
+import gameequipment.*;
 
 public class GameController {
 	private boolean endGame;
+	private static GameController instance;
 	private User player1;
 	private User player2;
 	Scanner sc = new Scanner(System.in);
 
-	public GameController() {
+	private GameController() {
+	}
+	
+	public static GameController getGC(){
+		if (instance == null)
+			instance = new GameController();
+		return instance;
 	}
 
 	public void play() {
@@ -40,10 +40,11 @@ public class GameController {
 				case 1:
 					this.player1 = new Robot();
 					creataAndSetShips(player1);
-					player1.getField().showMap();
+					player1.getField().showMap(player1.getUsername());
 					break;
 				case 2:
 					this.player1 = new Human();
+					player1.getField().showField();
 					creataAndSetShips(player1);
 					player1.getField().showField();
 					break;
@@ -105,7 +106,7 @@ public class GameController {
 			} else {
 				player1.goodShot();
 			}
-			player2.getField().showMap();
+			player2.getField().showMap(player2.getUsername());
 			if (endGame) {
 				System.out.println("My proigrali, komandir....");
 				break;

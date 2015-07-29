@@ -8,10 +8,8 @@ public class Human extends User {
 	private String username;
 
 	public Human() {
-		System.out.print("Please, enter your name: ");
+		System.out.println("Please, enter your name: ");
 		String username = sc.nextLine();
-		System.out.print("\nWelcome, " + username
-				+ "! We're glad you're with us here\n\n");
 		this.username = username;
 		this.field = new SeaField();
 	}
@@ -28,7 +26,7 @@ public class Human extends User {
 
 	@Override
 	public Coordinate askCoordinateOfShip() {
-		System.out.println("kuda loshan' stavit' budem kapitan ?");
+		System.out.println("Nu chto, " + this.username + ", kuda loshan' stavit' budem ?");
 		Coordinate c;
 		do {
 			System.out.print("x : ");
@@ -47,10 +45,10 @@ public class Human extends User {
 	public int askOrientation() {
 		int orient;
 		do {
-			System.out.println("a vdol' ili poperek -to ?");
+			System.out.println(" a vdol' ili poperek -to ?");
 			orient = sc.nextInt();
 			if (orient != 1 && orient != 2 && orient != 3 && orient != 4) {
-				System.out.println("chet kak=to ne idet  jakor' ei v ..... ");
+				System.out.println(" chet kak-to ne idet  jakor' ei v ..... ");
 			}
 		} while (orient != 1 && orient != 2 && orient != 3 && orient != 4);
 		return orient;
@@ -58,7 +56,7 @@ public class Human extends User {
 
 	@Override
 	public Coordinate move() {		
-		System.out.println("kuda streliat' to budem kapitan ?");
+		System.out.println(" kuda streliat' to budem kapitan ?");
 		Coordinate c;
 		do {
 			System.out.print("x : ");
@@ -67,7 +65,7 @@ public class Human extends User {
 			int b = sc.nextInt();
 			c = new Coordinate(a, b);
 			if (!c.inRange()) {
-				System.out.println("chet kak=to ne idet ..... ");
+				System.out.println(" chet kak=to ne idet ..... ");
 			}
 		} while (!c.inRange());
 		return c;

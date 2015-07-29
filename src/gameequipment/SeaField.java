@@ -19,8 +19,8 @@ public class SeaField {
 		return field[c.getX()][c.getY()];
 	}
 
-	public void showMap() {
-		System.out.println("Flot protivika redeet na glazach  :  ");
+	public void showMap(String username) {
+		System.out.println("Flot " + username + "  redeet na glazach  :  ");
 		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");

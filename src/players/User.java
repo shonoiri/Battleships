@@ -14,6 +14,13 @@ public class User {
 	public void setField(SeaField field) {
 		this.field = field;
 	}
+	
+	public void setUsername(String username){
+		this.username = username;
+	}
+	public String getUsername(){
+		return this.username;
+	}
 
 	public Coordinate askCoordinateOfShip() {
 		return null;
