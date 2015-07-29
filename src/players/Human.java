@@ -78,33 +78,35 @@ public class Human extends User {
 	}
 
 	@Override
-	public Coordinate move() {		
+	public Coordinate move() {	
+		boolean corCor = false;
 		System.out.println(" kuda streliat' to budem kapitan ?");
 		Coordinate c = null;
 		int a = 0, b = 0;
 		char[] temp1, temp2;
-		
-		System.out.print("x : ");
-		temp1 = sc.next().toCharArray();
-		System.out.print("y : ");
-		temp2 = sc.next().toCharArray();
-		
-		if (temp1.length != 1 || temp2.length != 1) {
-			System.out.println("chet kak-to ne idet ..... \n");
-			askCoordinateOfShip();
-		} else {
-			a = Character.getNumericValue(temp1[0]);
-			b = Character.getNumericValue(temp2[0]);
-			c = new Coordinate(a, b);
 
-			if (!c.inRange()) {
+		do {
+			System.out.print("x : ");
+			temp1 = sc.next().toCharArray();
+			System.out.print("y : ");
+			temp2 = sc.next().toCharArray();
+
+			if (temp1.length != 1 || temp2.length != 1) {
 				System.out.println("chet kak-to ne idet ..... \n");
-				askCoordinateOfShip();
+				corCor = false;
+			} else {
+				a = Character.getNumericValue(temp1[0]);
+				b = Character.getNumericValue(temp2[0]);
+				c = new Coordinate(a, b);
+				corCor = true;
+				if (!c.inRange()) {
+					System.out.println("chet kak-to ne idet ..... \n");
+					corCor = false;
+				}
 			}
-		}
+		} while (!corCor);
 		return c;
 	}
-
 
 	@Override
 	public void missShot() {
