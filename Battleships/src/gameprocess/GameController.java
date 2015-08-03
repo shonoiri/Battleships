@@ -15,7 +15,7 @@ public class GameController {
 	private GameController() {
 	}
 	
-	public static GameController getGC(){
+	public static GameController getGC(){  // only one instance of GC is promoted
 		if (instance == null)
 			instance = new GameController();
 		return instance;
