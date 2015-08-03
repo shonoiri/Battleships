@@ -22,7 +22,10 @@ public class GameController {
 	}
 
 	public void play() {
+		boolean setChoise = true;
 		String choise;
+		
+		do{
 		System.out.println("\n Ctho delaesh' zdes' salaga ?\n");
 		System.out.println("1: Piratskij kodex izuchaju, gospodin matros");
 		System.out.println("2: Pshel von , bitva u menia");
@@ -33,27 +36,33 @@ public class GameController {
 		switch (choise) {
 		case "1":
 			System.out.println("Kak govoril kucenko - pirkod eto nashe vse");
-			play();
+			setChoise = false;
 			break;
 		case "2":
+			setChoise = false;
+			do{
 			System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
 
 			choise = sc.nextLine();
 			switch (choise) {
 			case "1":
+				setChoise = true;
 				this.player1 = new Robot();
 				creataAndSetShips(player1);
 				player1.getField().showMap(player1.getUsername());
 				break;
 			case "2":
+				setChoise = true;
 				this.player1 = new Human();
 				creataAndSetShips(player1);
 				player1.getField().showField();
 				break;
 			default:
 				System.out.println("Kapitan, krichite razborchivej ...");
+				setChoise = false;
 				break;
 			}
+			}while(!setChoise);
 
 			player2 = new Robot();
 			creataAndSetShips(player2);
@@ -66,9 +75,10 @@ public class GameController {
 			break;
 		default:
 			System.out.println("Ty p'yan , salaga, otospis' i prichodi ...\n");
-			play();
+			setChoise = false;
 			break;
 		}
+		}while(!setChoise);
 	}
 
 	private void creataAndSetShips(User player) {
