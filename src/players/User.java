@@ -33,6 +33,8 @@ public class User {
 	public void goodShot() {
 
 	}
+	
+	public void sunkShip(){}
 
 	public int askOrientation() {
 		return 0;

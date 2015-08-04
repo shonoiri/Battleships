@@ -14,7 +14,7 @@ public class Human extends User {
 		this.field = new SeaField();
 	}
 
-	Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 
 	public String getUsername() {
 		return this.username;
@@ -27,11 +27,12 @@ public class Human extends User {
 	@Override
 	public Coordinate askCoordinateOfShip() {
 		boolean corCor = false;
-		getField().showField();
-		System.out.println("Nu chto, " + this.username + ", kuda loshan' stavit' budem ?");
 		Coordinate c = null;
 		int a = 0, b = 0;
 		char[] temp1, temp2;
+		
+		getField().showField(this.username);
+		System.out.println("Nu chto, " + this.username + ", kuda loshan' stavit' budem ?");
 
 		do {
 			System.out.print("x : ");
@@ -116,6 +117,11 @@ public class Human extends User {
 	@Override
 	public void goodShot() {
 		System.out.println("masterskij vystrel kapitan ");
+	}
+	
+	@Override
+	public void sunkShip(){
+		System.out.println("Da kapitan , vy sdelali eto !!!! Ego korabl' potoplen");
 	}
 
 	public void incorrectCoordinate() {

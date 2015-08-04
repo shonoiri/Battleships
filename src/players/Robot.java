@@ -1,4 +1,5 @@
 package players;
+
 import gameequipment.Coordinate;
 import gameequipment.SeaField;
 
@@ -13,15 +14,18 @@ public class Robot extends User {
 		this.username = username;
 		this.field = new SeaField();
 	}
-	Scanner sc = new Scanner(System.in);
+
+	private Scanner sc = new Scanner(System.in);
+
 	@Override
+
 	public Coordinate askCoordinateOfShip() {
 		int a;
 		int b;
 
 		Random rand = new Random();
-		a = rand.nextInt(10) + 0;
-		b = rand.nextInt(10) + 0;
+		a = rand.nextInt(9) + 0;
+		b = rand.nextInt(9) + 0;
 		Coordinate c = new Coordinate(a, b);
 		return c;
 	}
@@ -34,7 +38,12 @@ public class Robot extends User {
 
 	@Override
 	public void goodShot() {
-		System.out.println("on nas podbil , on nas podbil , trevogaaaaaaaa");
+		System.out.println(this.username + " popal svoloch'");
+	}
+
+	@Override
+	public void sunkShip() {
+		System.out.println("O net, kapitan, nash korabl' potoplen ....");
 	}
 
 	@Override
@@ -53,7 +62,7 @@ public class Robot extends User {
 		a = rand.nextInt(10) + 0;
 		b = rand.nextInt(10) + 0;
 		Coordinate c = new Coordinate(a, b);
-		System.out.println("etot idiot " + this.username + " lupit po " + a + ":" + b);
+		System.out.println(this.username + " lupit po " + a + ":" + b);
 		return c;
 	}
 }

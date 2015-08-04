@@ -1,5 +1,6 @@
 package gameprocess;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import players.*;
@@ -10,7 +11,7 @@ public class GameController {
 	private static GameController instance;
 	private User player1;
 	private User player2;
-	Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 
 	private GameController() {
 	}
@@ -35,7 +36,7 @@ public class GameController {
 
 			switch (choise) {
 			case "1":
-				System.out.println("Kak govoril kucenko - pirkod eto nashe vse"); //DD
+				System.out.println("Kak govoril kucenko - pirkod eto nashe vse"); // DD
 				setChoise = false;
 				break;
 			case "2":
@@ -43,19 +44,23 @@ public class GameController {
 				do {
 					System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
 					choise = sc.nextLine();
-					
+
 					switch (choise) {
 					case "1":
 						setChoise = true;
 						this.player1 = new Robot();
 						creataAndSetShips(player1);
-						player1.getField().showMap(player1.getUsername());
+						SeaField player1Field = player1.getField();
+						String player1Name = player1.getUsername();
+						player1Field.showMap(player1Name);
 						break;
 					case "2":
 						setChoise = true;
 						this.player1 = new Human();
 						creataAndSetShips(player1);
-						player1.getField().showField();
+						player1Field = player1.getField();
+						player1Name = player1.getUsername();
+						player1Field.showField(player1Name);
 						break;
 					default:
 						System.out.println("Kapitan, krichite razborchivej ...");
@@ -64,9 +69,11 @@ public class GameController {
 					}
 				} while (!setChoise);
 
-				player2 = new Robot();
+				this.player2 = new Robot();
+				SeaField player2Field = player2.getField();
+				String player2Name = player2.getUsername();
 				creataAndSetShips(player2);
-				player2.getField().showField();
+				player2Field.showMap(player2Name);
 
 				attack(player1, player2);
 
@@ -87,6 +94,9 @@ public class GameController {
 		Coordinate lc;
 		int orientace;
 		boolean setShip;
+
+		SeaField playerField = player.getField();
+		
 		for (int i = 1; i <= 4; i++) {
 			for (int j = 5 - i; j >= 1; j--) {
 				do {
@@ -97,9 +107,12 @@ public class GameController {
 						orientace = player.askOrientation();
 					}
 					lc = createLastCoordinate(coordinate, orientace, i);
-					if (canSetShip(coordinate, lc, player.getField())) {
-						Ship ship = new Ship(coordinate, player.getField(), lc);
-						player.getField().getShips().add(ship);
+					
+					if (canSetShip(coordinate, lc, playerField)) {
+						Ship ship;
+						ship = new Ship(coordinate, playerField, lc);
+						ArrayList<Ship> ships = playerField.getShips();
+						ships.add(ship);
 						setShip = true;
 					} else {
 						player.incorrectCoordinate();
@@ -110,47 +123,75 @@ public class GameController {
 		}
 
 	}
-	
+
 	private void attack(User player1, User player2) {
 		Coordinate coordinate;
+		SeaField player2Field = player2.getField();
+		SeaField player1Field = player1.getField();
+		String player1Name = player1.getUsername();
+		String player2Name = player2.getUsername();
+		CellStates stateOFShotCell;
 		do {
-			coordinate = player1.move();
-			if (player2.getField().getCell(coordinate).getState() == CellStates.SUNKSHIP
-					|| player2.getField().getCell(coordinate).getState() == CellStates.SHOT) {
-				player1.incorrectCoordinate();
+			boolean setMove = true;
+			do {
 				coordinate = player1.move();
-			}
-			if (checkMove(player2.getField(), coordinate)) {
-				player1.missShot();
-			} else {
-				player1.goodShot();
-			}
-			player2.getField().showMap(player2.getUsername());
+				stateOFShotCell = player2Field.getCellState(coordinate);
+
+				if (stateOFShotCell == CellStates.SUNKSHIP || stateOFShotCell == CellStates.SHOT) {
+					player1.incorrectCoordinate();
+					setMove = false;
+				}
+				if (checkMove(player2Field, coordinate)) {
+					player1.missShot();
+					setMove = true;
+				} else {
+					player1.goodShot();
+					stateOFShotCell = player2Field.getCellState(coordinate);
+					if (stateOFShotCell == CellStates.SUNKSHIP) {
+						player1.sunkShip();
+					}
+					setMove = false;
+				}
+				player2Field.showField(player2Name);
+			} while (!setMove);
 			if (endGame) {
 				System.out.println("My proigrali, komandir....");
 				break;
 			}
-			coordinate = player2.move();
-			if (player1.getField().getCell(coordinate).getState() == CellStates.SUNKSHIP
-					|| player1.getField().getCell(coordinate).getState() == CellStates.SHOT) {
-				player2.incorrectCoordinate();
+			setMove = true;
+
+			do {
 				coordinate = player2.move();
-			}
-			if (checkMove(player1.getField(), coordinate)) {
-				player2.missShot();
-			} else {
-				player2.goodShot();
-			}
-			player2.getField().showField();
-			if (endGame) {
-				System.out.println("My pobedili, komandir!");
-				break;
-			}
+				stateOFShotCell = player1Field.getCellState(coordinate);
+
+				if (stateOFShotCell == CellStates.SUNKSHIP || stateOFShotCell == CellStates.SHOT) {
+					player2.incorrectCoordinate();
+					coordinate = player2.move();
+					setMove = false;
+				}
+				if (checkMove(player1Field, coordinate)) {
+					player2.missShot();
+					setMove = true;
+				} else {
+					player2.goodShot();
+					stateOFShotCell = player2Field.getCellState(coordinate);
+					if (stateOFShotCell == CellStates.SUNKSHIP) {
+						player2.sunkShip();
+					}
+					setMove = false;
+				}
+				player1Field.showField(player1Name);
+				if (endGame) {
+					System.out.println("My pobedili, komandir!");
+					break;
+				}
+			} while (!setMove);
 
 		} while (!endGame);
 		play();
 	}
 
+	
 	private boolean canSetShip(Coordinate c, Coordinate lc, SeaField field) {
 
 		boolean canSetShip = true;
@@ -162,7 +203,8 @@ public class GameController {
 				for (int j = Math.min(c.getY(), lc.getY()); j <= Math.max(
 						c.getY(), lc.getY()); j++) {
 					Coordinate temp = new Coordinate(i, j);
-					if (field.getCell(temp).getState() != CellStates.WATER) {
+					Cell cell = field.getCell(temp);
+					if (cell.getState() != CellStates.WATER) {
 						canSetShip = false;
 						break;
 					}
@@ -202,29 +244,30 @@ public class GameController {
 		return lc;
 	}
 
+	
 	private boolean checkMove(SeaField field, Coordinate c) {
-		Cell cel;
-		cel = field.getCell(c);
+		Cell cel = field.getCell(c);
+		CellStates cellState = field.getCellState(c);
 		boolean missShot = true;
-		for (Ship item : field.getShips()) {
+		if (cellState != CellStates.SHIP) {
 
-			if (item.getShip().contains(cel)) {
+			for (Ship item : field.getShips()) {
 
-				cel.setState(CellStates.SUNKSHIP);
-				item.getShip().remove(cel);
-				missShot = false;
-				if (item.getShip().isEmpty()) {
-					item.setState(ShipStates.Sunk);
-					field.getShips().remove(item);
-					if (field.getShips().isEmpty()) {
-						endGame = true;
-						break;
+				if (item.getShip().contains(cel)) {
+
+					item.getShip().remove(cel);
+					missShot = false;
+					if (item.getShip().isEmpty()) {
+						item.setState(ShipStates.Sunk);
+						field.getShips().remove(item);
+						cel.setState(CellStates.SUNKSHIP);
+					} else {
+						cel.setState(CellStates.SHOTSHIP);
 					}
+					break;
 				}
-				break;
 			}
-		}
-		if (cel.getState() != CellStates.SUNKSHIP) {
+		} else {
 			cel.setState(CellStates.SHOT);
 		}
 		if (field.getShips().isEmpty()) {

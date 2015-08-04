@@ -6,7 +6,6 @@ public class Cell {
 
 	public Cell(Coordinate c) {
 		this.c = c;
-		state = CellStates.WATER;
 	}
 
 	public CellStates getState() {
