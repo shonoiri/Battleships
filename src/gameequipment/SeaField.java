@@ -21,7 +21,9 @@ public class SeaField {
 	}
 
 	public Cell getCell(Coordinate c) {
-		return field[c.getX()][c.getY()];
+		int x = c.getX();
+		int y = c.getY();
+		return field[x][y];
 	}
 
 	public void showMap(String username) {
@@ -30,9 +32,10 @@ public class SeaField {
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");
 			for (int j = 0; j < 10; j++) {
-				if (this.field[j][i].getState() == CellStates.SHOT) {
+				Cell cell = this.field[j][i];
+				if (cell.getState() == CellStates.SHOT) {
 					System.out.print("* ");
-				} else if (this.field[j][i].getState() == CellStates.SUNKSHIP || this.field[j][i].getState() == CellStates.SHOTSHIP) {
+				} else if (cell.getState() == CellStates.SUNKSHIP || cell.getState() == CellStates.SHOTSHIP) {
 					System.out.print("X ");
 				} else {
 					System.out.print("~ ");
@@ -49,11 +52,12 @@ public class SeaField {
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");
 			for (int j = 0; j < 10; j++) {
-				if (this.field[j][i].getState() == CellStates.SHIP) {
+				Cell cell = this.field[j][i];
+				if (cell.getState() == CellStates.SHIP) {
 					System.out.print("O ");
-				} else if (this.field[j][i].getState() == CellStates.SHOT) {
+				} else if (cell.getState() == CellStates.SHOT) {
 					System.out.print("* ");
-				} else if (this.field[j][i].getState() == CellStates.SUNKSHIP || this.field[j][i].getState() == CellStates.SHOTSHIP ) {
+				} else if (cell.getState() == CellStates.SUNKSHIP || cell.getState() == CellStates.SHOTSHIP ) {
 					System.out.print("X ");
 				} else {
 					System.out.print("~ ");

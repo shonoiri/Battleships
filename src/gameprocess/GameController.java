@@ -41,6 +41,10 @@ public class GameController {
 				break;
 			case "2":
 				setChoise = false;
+				SeaField player1Field;
+				String player1Name;
+				SeaField player2Field;
+				String player2Name;
 				do {
 					System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
 					choise = sc.nextLine();
@@ -50,8 +54,8 @@ public class GameController {
 						setChoise = true;
 						this.player1 = new Robot();
 						creataAndSetShips(player1);
-						SeaField player1Field = player1.getField();
-						String player1Name = player1.getUsername();
+						player1Field = player1.getField();
+						player1Name = player1.getUsername();
 						player1Field.showMap(player1Name);
 						break;
 					case "2":
@@ -70,8 +74,8 @@ public class GameController {
 				} while (!setChoise);
 
 				this.player2 = new Robot();
-				SeaField player2Field = player2.getField();
-				String player2Name = player2.getUsername();
+				player2Field = player2.getField();
+				player2Name = player2.getUsername();
 				creataAndSetShips(player2);
 				player2Field.showMap(player2Name);
 
@@ -203,8 +207,8 @@ public class GameController {
 				for (int j = Math.min(c.getY(), lc.getY()); j <= Math.max(
 						c.getY(), lc.getY()); j++) {
 					Coordinate temp = new Coordinate(i, j);
-					Cell cell = field.getCell(temp);
-					if (cell.getState() != CellStates.WATER) {
+					CellStates cellState = field.getCellState(temp);
+					if (cellState != CellStates.WATER) {
 						canSetShip = false;
 						break;
 					}
@@ -246,29 +250,29 @@ public class GameController {
 
 	
 	private boolean checkMove(SeaField field, Coordinate c) {
-		Cell cel = field.getCell(c);
+		Cell cell = field.getCell(c);
 		CellStates cellState = field.getCellState(c);
 		boolean missShot = true;
 		if (cellState != CellStates.SHIP) {
 
 			for (Ship item : field.getShips()) {
 
-				if (item.getShip().contains(cel)) {
+				if (item.getShip().contains(cell)) {
 
-					item.getShip().remove(cel);
+					item.getShip().remove(cell);
 					missShot = false;
 					if (item.getShip().isEmpty()) {
 						item.setState(ShipStates.Sunk);
 						field.getShips().remove(item);
-						cel.setState(CellStates.SUNKSHIP);
+						cell.setState(CellStates.SUNKSHIP);
 					} else {
-						cel.setState(CellStates.SHOTSHIP);
+						cell.setState(CellStates.SHOTSHIP);
 					}
 					break;
 				}
 			}
 		} else {
-			cel.setState(CellStates.SHOT);
+			cell.setState(CellStates.SHOT);
 		}
 		if (field.getShips().isEmpty()) {
 			endGame = true;
