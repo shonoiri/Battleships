@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Human extends User {
 	private String username;
+	private Scanner sc = new Scanner(System.in);
 
 	public Human() {
 		System.out.println("Please, enter your name: ");
@@ -13,8 +14,6 @@ public class Human extends User {
 		this.username = username;
 		this.field = new SeaField();
 	}
-
-	private Scanner sc = new Scanner(System.in);
 
 	public String getUsername() {
 		return this.username;
@@ -27,11 +26,12 @@ public class Human extends User {
 	@Override
 	public Coordinate askCoordinateOfShip() {
 		boolean corCor = false;
-		Coordinate c = null;
-		int a = 0, b = 0;
+		Coordinate coordinate = null;
+		int x = 0, y = 0;
 		char[] temp1, temp2;
+		SeaField humanField = this.field;
 		
-		getField().showField(this.username);
+		humanField.showField(this.username);
 		System.out.println("Nu chto, " + this.username + ", kuda loshan' stavit' budem ?");
 
 		do {
@@ -44,22 +44,22 @@ public class Human extends User {
 				System.out.println("chet kak-to ne idet ..... \n");
 				corCor = false;
 			} else {
-				a = Character.getNumericValue(temp1[0]);
-				b = Character.getNumericValue(temp2[0]);
-				c = new Coordinate(a, b);
+				x = Character.getNumericValue(temp1[0]);
+				y = Character.getNumericValue(temp2[0]);
+				coordinate = new Coordinate(x, y);
 				corCor = true;
-				if (!c.inRange()) {
+				if (!coordinate.inRange()) {
 					System.out.println("chet kak-to ne idet ..... \n");
 					corCor = false;
 				}
 			}
 		} while (!corCor);
-		return c;
+		return coordinate;
 	}
 
 	@Override
 	public int askOrientation() {
-		int orient = 0;
+		int orientation = 0;
 		String temp1 = null;
 		char[] temp;
 		boolean corOr = false;
@@ -67,25 +67,24 @@ public class Human extends User {
 			System.out.println("\nA vdol' ili poperek -to ? \n 3: vpravo\n 1: vlevo \n 2: vverch \n 4: vniz \n");
 			temp1 = sc.next();
 			temp = temp1.toCharArray();
-			orient = Character.getNumericValue(temp[0]);
+			orientation = Character.getNumericValue(temp[0]);
 			corOr = true;
-			if (temp.length != 1 || orient != 1 && orient != 2 && orient != 3
-					&& orient != 4) {
+			if (temp.length != 1 || orientation != 1 && orientation != 2 && orientation != 3
+					&& orientation != 4) {
 				System.out.println("chet kak-to ne idet ..... \n");
 				corOr = false;
 			}
 		} while (!corOr);
-		return orient;
+		return orientation;
 	}
 
 	@Override
 	public Coordinate move() {	
 		boolean corCor = false;
+		Coordinate coordinate = null;
+		int x = 0, y = 0;
+		char[] temp1, temp2;		
 		System.out.println(" kuda streliat' to budem kapitan ?");
-		Coordinate c = null;
-		int a = 0, b = 0;
-		char[] temp1, temp2;
-
 		do {
 			System.out.print("x : ");
 			temp1 = sc.next().toCharArray();
@@ -96,17 +95,17 @@ public class Human extends User {
 				System.out.println("chet kak-to ne idet ..... \n");
 				corCor = false;
 			} else {
-				a = Character.getNumericValue(temp1[0]);
-				b = Character.getNumericValue(temp2[0]);
-				c = new Coordinate(a, b);
+				x = Character.getNumericValue(temp1[0]);
+				y = Character.getNumericValue(temp2[0]);
+				coordinate = new Coordinate(x, y);
 				corCor = true;
-				if (!c.inRange()) {
+				if (!coordinate.inRange()) {
 					System.out.println("chet kak-to ne idet ..... \n");
 					corCor = false;
 				}
 			}
 		} while (!corCor);
-		return c;
+		return coordinate;
 	}
 
 	@Override
@@ -125,8 +124,7 @@ public class Human extends User {
 	}
 
 	public void incorrectCoordinate() {
-		System.out
-				.println("bocman, eta p'yanaya svin'ya opyat' chto-to naputal s coordinatami , kapitan .... ");
+		System.out.println("bocman, eta p'yanaya svin'ya opyat' chto-to naputal s coordinatami , kapitan .... ");
 	}
 
 }

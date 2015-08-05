@@ -9,7 +9,7 @@ public class Cell {
 	}
 
 	public CellStates getState() {
-		return state;
+		return this.state;
 	}
 
 	public void setState(CellStates state) {
@@ -17,7 +17,7 @@ public class Cell {
 	}
 
 	public Coordinate getCellCoordinate() {
-		return c;
+		return this.c;
 	}
 
 	public void setCellCoordinate(Coordinate c) {

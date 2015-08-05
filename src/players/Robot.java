@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class Robot extends User {
 
+	private Scanner sc = new Scanner(System.in);
+
 	public Robot() {
 		System.out.print("Kak chotite vraga obozvat' kapitan ? ");
 		String username = sc.nextLine();
@@ -15,19 +17,17 @@ public class Robot extends User {
 		this.field = new SeaField();
 	}
 
-	private Scanner sc = new Scanner(System.in);
-
 	@Override
-
 	public Coordinate askCoordinateOfShip() {
-		int a;
-		int b;
+		int x;
+		int y;
+		Coordinate coordinate;
 
 		Random rand = new Random();
-		a = rand.nextInt(9) + 0;
-		b = rand.nextInt(9) + 0;
-		Coordinate c = new Coordinate(a, b);
-		return c;
+		x = rand.nextInt(9) + 0;
+		y = rand.nextInt(9) + 0;
+		coordinate = new Coordinate(x, y);
+		return coordinate;
 	}
 
 	@Override
@@ -49,20 +49,20 @@ public class Robot extends User {
 	@Override
 	public int askOrientation() {
 		Random rand = new Random();
-		int orient = (rand.nextInt(4) + 1);
-		return orient;
+		int orientation = (rand.nextInt(4) + 1);
+		return orientation;
 	}
 
 	@Override
 	public Coordinate move() {
-		int a;
-		int b;
-
+		int x;
+		int y;
+		Coordinate coordinate;		
 		Random rand = new Random();
-		a = rand.nextInt(10) + 0;
-		b = rand.nextInt(10) + 0;
-		Coordinate c = new Coordinate(a, b);
-		System.out.println(this.username + " lupit po " + a + ":" + b);
-		return c;
+		x = rand.nextInt(10) + 0;
+		y = rand.nextInt(10) + 0;
+		coordinate = new Coordinate(x, y);
+		System.out.println(this.username + " lupit po " + x + ":" + y);
+		return coordinate;
 	}
 }

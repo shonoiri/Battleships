@@ -27,15 +27,18 @@ public class SeaField {
 	}
 
 	public void showMap(String username) {
+		Cell cell;
+		CellStates cellState;
 		System.out.println("Flot " + username + "  redeet na glazach  :  ");
 		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");
 			for (int j = 0; j < 10; j++) {
-				Cell cell = this.field[j][i];
-				if (cell.getState() == CellStates.SHOT) {
+				cell = this.field[j][i];
+				cellState = cell.getState();
+				if (cellState == CellStates.SHOT) {
 					System.out.print("* ");
-				} else if (cell.getState() == CellStates.SUNKSHIP || cell.getState() == CellStates.SHOTSHIP) {
+				} else if (cellState == CellStates.SUNKSHIP || cellState == CellStates.SHOTSHIP) {
 					System.out.print("X ");
 				} else {
 					System.out.print("~ ");
@@ -47,17 +50,18 @@ public class SeaField {
 	}
 
 	public void showField(String username) {
+		Cell cell;
+		CellStates cellState;
 		System.out.println(username +" Polozhenie del takovo :  ");
 		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");
 			for (int j = 0; j < 10; j++) {
-				Cell cell = this.field[j][i];
-				if (cell.getState() == CellStates.SHIP) {
-					System.out.print("O ");
-				} else if (cell.getState() == CellStates.SHOT) {
+				cell = this.field[j][i];
+				cellState = cell.getState();
+				if (cellState == CellStates.SHOT) {
 					System.out.print("* ");
-				} else if (cell.getState() == CellStates.SUNKSHIP || cell.getState() == CellStates.SHOTSHIP ) {
+				} else if (cellState == CellStates.SUNKSHIP || cellState == CellStates.SHOTSHIP) {
 					System.out.print("X ");
 				} else {
 					System.out.print("~ ");
@@ -70,13 +74,14 @@ public class SeaField {
 
 	public SeaField() { 
 		field = new Cell[VERTICAL_FIELD_SIZE][HORIZONTAL_FIELD_SIZE];
+		Cell cell;
+		Coordinate coordinate;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				Coordinate c = new Coordinate(i, j);
-				Cell cell = new Cell(c);
+				coordinate = new Coordinate(i, j);
+				cell = new Cell(coordinate);
 				cell.setState(CellStates.WATER);
-				field[i][j] = cell;
-				
+				field[i][j] = cell;				
 			}
 		}
 	}

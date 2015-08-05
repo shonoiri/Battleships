@@ -25,7 +25,6 @@ public class GameController {
 	public void play() {
 		boolean setChoise = true;
 		String choise;
-
 		do {
 			System.out.println("\n Ctho delaesh' zdes' salaga ?\n");
 			System.out.println("1: Piratskij kodex izuchaju, gospodin matros");
@@ -33,18 +32,15 @@ public class GameController {
 			System.out.println("3: Da ya voobshe-to v bordel' idu ...");
 
 			choise = sc.nextLine();
-
 			switch (choise) {
 			case "1":
 				System.out.println("Kak govoril kucenko - pirkod eto nashe vse"); // DD
 				setChoise = false;
 				break;
-			case "2":
-				setChoise = false;
+			case "2":				
 				SeaField player1Field;
 				String player1Name;
-				SeaField player2Field;
-				String player2Name;
+				setChoise = false;
 				do {
 					System.out.println("Kak igrat'-to budem kapitan : 1 - robot i robot, 2 - Chelovek i robot");
 					choise = sc.nextLine();
@@ -72,7 +68,9 @@ public class GameController {
 						break;
 					}
 				} while (!setChoise);
-
+				
+				SeaField player2Field;
+				String player2Name;				
 				this.player2 = new Robot();
 				player2Field = player2.getField();
 				player2Name = player2.getUsername();
@@ -93,30 +91,27 @@ public class GameController {
 	}
 
 	private void creataAndSetShips(User player) {
-
 		Coordinate coordinate;
-		Coordinate lc;
-		int orientace;
+		Coordinate lastCoordinate;
+		int orientation;
 		boolean setShip;
-
+		Ship ship;
 		SeaField playerField = player.getField();
+		ArrayList<Ship> playersShips = playerField.getShips();
 		
 		for (int i = 1; i <= 4; i++) {
 			for (int j = 5 - i; j >= 1; j--) {
 				do {
 					coordinate = player.askCoordinateOfShip();
 					if (i == 1) {
-						orientace = 3;
+						orientation = 3;
 					} else {
-						orientace = player.askOrientation();
+						orientation = player.askOrientation();
 					}
-					lc = createLastCoordinate(coordinate, orientace, i);
-					
-					if (canSetShip(coordinate, lc, playerField)) {
-						Ship ship;
-						ship = new Ship(coordinate, playerField, lc);
-						ArrayList<Ship> ships = playerField.getShips();
-						ships.add(ship);
+					lastCoordinate = createLastCoordinate(coordinate, orientation, i);					
+					if (canSetShip(coordinate, lastCoordinate, playerField)) {
+						ship = new Ship(coordinate, playerField, lastCoordinate);
+						playersShips.add(ship);
 						setShip = true;
 					} else {
 						player.incorrectCoordinate();
@@ -125,7 +120,6 @@ public class GameController {
 				} while (!setShip);
 			}
 		}
-
 	}
 
 	private void attack(User player1, User player2) {
@@ -163,11 +157,9 @@ public class GameController {
 				break;
 			}
 			setMove = true;
-
 			do {
 				coordinate = player2.move();
 				stateOFShotCell = player1Field.getCellState(coordinate);
-
 				if (stateOFShotCell == CellStates.SUNKSHIP || stateOFShotCell == CellStates.SHOT) {
 					player2.incorrectCoordinate();
 					coordinate = player2.move();
@@ -196,18 +188,18 @@ public class GameController {
 	}
 
 	
-	private boolean canSetShip(Coordinate c, Coordinate lc, SeaField field) {
+	private boolean canSetShip(Coordinate Coordinate, Coordinate lastCoordinate, SeaField field) {
 
 		boolean canSetShip = true;
-
-		if (lc.inRange()) {
-
-			for (int i = Math.min(c.getX(), lc.getX()); i <= Math.max(c.getX(),
-					lc.getX()); i++) {
-				for (int j = Math.min(c.getY(), lc.getY()); j <= Math.max(
-						c.getY(), lc.getY()); j++) {
-					Coordinate temp = new Coordinate(i, j);
-					CellStates cellState = field.getCellState(temp);
+		Coordinate temp;
+		CellStates cellState;
+		if (lastCoordinate.inRange()) {
+			for (int i = Math.min(Coordinate.getX(), lastCoordinate.getX()); i <= Math.max(Coordinate.getX(),
+					lastCoordinate.getX()); i++) {
+				for (int j = Math.min(Coordinate.getY(), lastCoordinate.getY()); j <= Math.max(
+						Coordinate.getY(), lastCoordinate.getY()); j++) {
+					temp = new Coordinate(i, j);
+					cellState = field.getCellState(temp);
 					if (cellState != CellStates.WATER) {
 						canSetShip = false;
 						break;
@@ -220,49 +212,46 @@ public class GameController {
 		return canSetShip;
 	}
 
-	private Coordinate createLastCoordinate(Coordinate c, int orient, int len) {
+	private Coordinate createLastCoordinate(Coordinate coordinate, int orient, int lengthOfShip) {
 		int x, y;
-		Coordinate lc = null  ;
+		Coordinate lastCoordinate = null  ;
 		switch (orient) {
 		case 1:
-			x = c.getX() - len + 1;
-			y = c.getY();
-			lc = new Coordinate(x, y);
+			x = coordinate.getX() - lengthOfShip + 1;
+			y = coordinate.getY();
+			lastCoordinate = new Coordinate(x, y);
 			break;
 		case 4:
-			x = c.getX();
-			y = c.getY() + len - 1;
-			lc = new Coordinate(x, y);
+			x = coordinate.getX();
+			y = coordinate.getY() + lengthOfShip - 1;
+			lastCoordinate = new Coordinate(x, y);
 			break;
 		case 3:
-			x = c.getX() + len - 1;
-			y = c.getY();
-			lc = new Coordinate(x, y);
+			x = coordinate.getX() + lengthOfShip - 1;
+			y = coordinate.getY();
+			lastCoordinate = new Coordinate(x, y);
 			break;
 		case 2:
-			x = c.getX();
-			y = c.getY() - len + 1;
-			lc = new Coordinate(x, y);
+			x = coordinate.getX();
+			y = coordinate.getY() - lengthOfShip + 1;
+			lastCoordinate = new Coordinate(x, y);
 			break;
 		}
-		return lc;
+		return lastCoordinate;
 	}
 
 	
-	private boolean checkMove(SeaField field, Coordinate c) {
-		Cell cell = field.getCell(c);
-		CellStates cellState = field.getCellState(c);
+	private boolean checkMove(SeaField field, Coordinate coordinate) {
+		Cell cell = field.getCell(coordinate);
+		CellStates cellState = field.getCellState(coordinate);
 		boolean missShot = true;
 		if (cellState != CellStates.SHIP) {
-
 			for (Ship item : field.getShips()) {
-
 				if (item.getShip().contains(cell)) {
-
 					item.getShip().remove(cell);
 					missShot = false;
 					if (item.getShip().isEmpty()) {
-						item.setState(ShipStates.Sunk);
+						item.setState(ShipStates.SUNK);
 						field.getShips().remove(item);
 						cell.setState(CellStates.SUNKSHIP);
 					} else {
