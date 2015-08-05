@@ -1,10 +1,10 @@
 package players;
 
-import gameequipment.Coordinate;
-import gameequipment.SeaField;
-
 import java.util.Random;
 import java.util.Scanner;
+
+import gameequipment.Coordinate;
+import gameequipment.SeaField;
 
 public class Robot extends User {
 

@@ -1,5 +1,5 @@
 package gameequipment;
-import java.util.*;
+import java.util.ArrayList;
 
 public class SeaField {
 	private static final int VERTICAL_FIELD_SIZE = 10;

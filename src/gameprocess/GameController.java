@@ -3,8 +3,15 @@ package gameprocess;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import players.*;
-import gameequipment.*;
+import gameequipment.Cell;
+import gameequipment.CellStates;
+import gameequipment.Coordinate;
+import gameequipment.SeaField;
+import gameequipment.Ship;
+import gameequipment.ShipStates;
+import players.Human;
+import players.Robot;
+import players.User;
 
 public class GameController {
 	private boolean endGame;
