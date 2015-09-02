@@ -1,10 +1,14 @@
 package players;
+
 import java.util.Scanner;
 
+import gameequipment.Cell;
+import gameequipment.CellStates;
 import gameequipment.Coordinate;
 import gameequipment.SeaField;
 
 public class Human extends User {
+
 	private String username;
 	private Scanner sc = new Scanner(System.in);
 
@@ -13,6 +17,40 @@ public class Human extends User {
 		String username = sc.nextLine();
 		this.username = username;
 		this.field = new SeaField();
+	}
+	
+	@Override
+	public void setShotCoordinates(Coordinate coordinate) {
+	Cell cell = this.field.getCell(coordinate);
+	this.shotCoordinates.add(cell);
+	}
+
+	@Override
+	public void showField() {
+		Coordinate coordinate;
+		Cell cell;
+		CellStates cellState;
+		System.out.println("Field of " + this.username + " : " );
+		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
+		for (int i = 0; i < 10; i++) {
+			System.out.print(i + " |");
+			for (int j = 0; j < 10; j++) {
+				coordinate = new Coordinate(j, i);
+				cell = this.field.getCell(coordinate);
+				cellState = cell.getState();
+				if (cellState == CellStates.SHIP) {
+					System.out.print("o ");
+				} else if (cellState == CellStates.SHOT) {
+					System.out.print("* ");
+				} else if (cellState == CellStates.SUNKSHIP || cellState == CellStates.SHOTSHIP) {
+					System.out.print("X ");
+				} else {
+					System.out.print("~ ");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 
 	public String getUsername() {
@@ -29,19 +67,18 @@ public class Human extends User {
 		Coordinate coordinate = null;
 		int x = 0, y = 0;
 		char[] temp1, temp2;
-		SeaField humanField = this.field;
 		
-		humanField.showField(this.username);
-		System.out.println("Nu chto, " + this.username + ", kuda loshan' stavit' budem ?");
+		showField();
+		System.out.println(" Please enter coordinate of ship ");
 
 		do {
 			System.out.print("x : ");
 			temp1 = sc.next().toCharArray();
 			System.out.print("y : ");
 			temp2 = sc.next().toCharArray();
-
+			
 			if (temp1.length != 1 || temp2.length != 1) {
-				System.out.println("chet kak-to ne idet ..... \n");
+				System.out.println("Wrong coordinate. Please try again \n");
 				corCor = false;
 			} else {
 				x = Character.getNumericValue(temp1[0]);
@@ -49,7 +86,7 @@ public class Human extends User {
 				coordinate = new Coordinate(x, y);
 				corCor = true;
 				if (!coordinate.inRange()) {
-					System.out.println("chet kak-to ne idet ..... \n");
+					System.out.println("Wrong coordinate. Please try again \n");
 					corCor = false;
 				}
 			}
@@ -64,14 +101,14 @@ public class Human extends User {
 		char[] temp;
 		boolean corOr = false;
 		do {
-			System.out.println("\nA vdol' ili poperek -to ? \n 3: vpravo\n 1: vlevo \n 2: vverch \n 4: vniz \n");
+			System.out.println("\nPlease enter orientation of ship : 1 - to the left, 2 - up, 3 - to the right, 4 - down  \n");
 			temp1 = sc.next();
 			temp = temp1.toCharArray();
 			orientation = Character.getNumericValue(temp[0]);
 			corOr = true;
 			if (temp.length != 1 || orientation != 1 && orientation != 2 && orientation != 3
 					&& orientation != 4) {
-				System.out.println("chet kak-to ne idet ..... \n");
+				System.out.println("Wrong orientation. Please try again \n");
 				corOr = false;
 			}
 		} while (!corOr);
@@ -80,11 +117,12 @@ public class Human extends User {
 
 	@Override
 	public Coordinate move() {	
+		Cell cell;
 		boolean corCor = false;
 		Coordinate coordinate = null;
 		int x = 0, y = 0;
-		char[] temp1, temp2;		
-		System.out.println(" kuda streliat' to budem kapitan ?");
+		char[] temp1, temp2;
+		System.out.println(" Please enter coordinate of shoot ");
 		do {
 			System.out.print("x : ");
 			temp1 = sc.next().toCharArray();
@@ -92,7 +130,7 @@ public class Human extends User {
 			temp2 = sc.next().toCharArray();
 
 			if (temp1.length != 1 || temp2.length != 1) {
-				System.out.println("chet kak-to ne idet ..... \n");
+				System.out.println("Wrong coordinate. Please try again \n");
 				corCor = false;
 			} else {
 				x = Character.getNumericValue(temp1[0]);
@@ -100,31 +138,21 @@ public class Human extends User {
 				coordinate = new Coordinate(x, y);
 				corCor = true;
 				if (!coordinate.inRange()) {
-					System.out.println("chet kak-to ne idet ..... \n");
+					System.out.println("Wrong coordinate. Please try again \n");
 					corCor = false;
 				}
+			}
+			cell = this.field.getCell(coordinate);
+			if (shotCoordinates.contains(cell)) {
+				incorrectCoordinate();
+				corCor = false;
 			}
 		} while (!corCor);
 		return coordinate;
 	}
 
-	@Override
-	public void missShot() {
-		System.out.println("eto veter vinovat , tochno govorju .... veter ...");
-	}
-
-	@Override
-	public void goodShot() {
-		System.out.println("masterskij vystrel kapitan ");
-	}
-	
-	@Override
-	public void sunkShip(){
-		System.out.println("Da kapitan , vy sdelali eto !!!! Ego korabl' potoplen");
-	}
-
 	public void incorrectCoordinate() {
-		System.out.println("bocman, eta p'yanaya svin'ya opyat' chto-to naputal s coordinatami , kapitan .... ");
+		System.out.println("Wrong coordinate. Please try again \n");
 	}
 
 }
