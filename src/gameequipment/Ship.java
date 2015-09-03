@@ -34,7 +34,7 @@ public class Ship {
 				temp = new Coordinate(a, b);
 				if (temp.inRange()) {
 					cell = field.getCell(temp);
-					if (cell.getState() != CellStates.SHIP && cell.getState() != CellStates.NEXTTOSHIP) {
+					if (cell.getState() != CellStates.SHIP) {
 						cell.setState(CellStates.NEXTTOSHIP);
 						nextToShipCells.add(cell);
 					}

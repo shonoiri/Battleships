@@ -13,16 +13,12 @@ public class Human extends User {
 	private Scanner sc = new Scanner(System.in);
 
 	public Human() {
-		System.out.println("Please, enter your name: ");
-		String username = sc.nextLine();
-		this.username = username;
 		this.field = new SeaField();
 	}
-	
+
 	@Override
 	public void setShotCoordinates(Coordinate coordinate) {
-	Cell cell = this.field.getCell(coordinate);
-	this.shotCoordinates.add(cell);
+		this.shotCoordinates.add(coordinate);
 	}
 
 	@Override
@@ -30,7 +26,7 @@ public class Human extends User {
 		Coordinate coordinate;
 		Cell cell;
 		CellStates cellState;
-		System.out.println("Field of " + this.username + " : " );
+		System.out.println("Field of " + this.username + " : ");
 		System.out.println("  |0 1 2 3 4 5 6 7 8 9\n--+-------------------");
 		for (int i = 0; i < 10; i++) {
 			System.out.print(i + " |");
@@ -53,11 +49,15 @@ public class Human extends User {
 		System.out.println();
 	}
 
+	@Override
 	public String getUsername() {
 		return this.username;
 	}
 
-	public void setUsername(String username) {
+	@Override
+	public void setUsername() {
+		System.out.println("Please, enter your name: ");
+		String username = sc.nextLine();
 		this.username = username;
 	}
 
@@ -67,7 +67,7 @@ public class Human extends User {
 		Coordinate coordinate = null;
 		int x = 0, y = 0;
 		char[] temp1, temp2;
-		
+
 		showField();
 		System.out.println(" Please enter coordinate of ship ");
 
@@ -117,7 +117,6 @@ public class Human extends User {
 
 	@Override
 	public Coordinate move() {	
-		Cell cell;
 		boolean corCor = false;
 		Coordinate coordinate = null;
 		int x = 0, y = 0;
@@ -142,8 +141,7 @@ public class Human extends User {
 					corCor = false;
 				}
 			}
-			cell = this.field.getCell(coordinate);
-			if (shotCoordinates.contains(cell)) {
+			if (shotCoordinates.contains(coordinate)) {
 				incorrectCoordinate();
 				corCor = false;
 			}

@@ -8,6 +8,7 @@ import gameequipment.CellStates;
 import gameequipment.Coordinate;
 import gameequipment.SeaField;
 import gameequipment.Ship;
+import gameequipment.ShipStates;
 import players.Human;
 import players.Robot;
 import players.User;
@@ -40,7 +41,7 @@ public class GameController {
 			choise = sc.nextLine();
 			switch (choise) {
 			case "1":
-				System.out.println("See https://en.wikipedia.org/wiki/Battleship_(game) "); 
+				System.out.println("See https://en.wikipedia.org/wiki/Battleship_(game) ");
 				setChoise = false;
 				break;
 			case "2":
@@ -65,10 +66,12 @@ public class GameController {
 					}
 				} while (!setChoise);
 
+				player1.setUsername();
 				creataAndSetShips(player1);
 				player1.showField();
 
 				this.player = new Robot();
+				player.setUsername();
 				creataAndSetShips(player);
 				player.showField();
 
@@ -83,6 +86,7 @@ public class GameController {
 				break;
 			}
 		} while (!setChoise);
+		//return;
 	}
 
 	private void creataAndSetShips(User player) {
@@ -122,20 +126,22 @@ public class GameController {
 
 	private void playersMove(User pl1, User pl2) {
 		Coordinate coordinate;
-		CellStates stateOFShotCell;
 		boolean setMove = true;
 		String playerName = pl1.getUsername();
 		SeaField player2Field = pl2.getField();
 		do {
 			coordinate = pl1.move();
-			stateOFShotCell = player2Field.getCellState(coordinate);
-			if (checkMove(player2Field, coordinate)) {
+			if (missShot(player2Field, coordinate)) {
+				setMissShot(player2Field, coordinate);
+				pl1.setShotCoordinates(coordinate);
 				pl1.missShot();
 				setMove = true;
 			} else {
 				pl1.goodShot();
-				stateOFShotCell = player2Field.getCellState(coordinate);
-				if (stateOFShotCell == CellStates.SUNKSHIP) {
+				pl1.setShotCoordinates(coordinate);
+				Ship shoutedShip = setGoodShot(player2Field, coordinate);
+				if (shoutedShip.getState() == ShipStates.SUNK) {
+					pl1.setNextToSunkShipCoordinates(shoutedShip.getNextToShipCells());
 					pl1.sunkShip();
 				}
 				pl2.showField();
@@ -153,7 +159,8 @@ public class GameController {
 	private void attack(User player1, User player2) {
 		do {
 			playersMove(player2, player1);
-			if(endGame) break;
+			if (endGame)
+				break;
 			playersMove(player1, player2);
 		} while (!endGame);
 		play();
@@ -211,38 +218,42 @@ public class GameController {
 		return lastCoordinate;
 	}
 
-	private boolean checkMove(SeaField field, Coordinate coordinate) {
+	private Ship setGoodShot(SeaField field, Coordinate coordinate) {
 		Cell cell = field.getCell(coordinate);
-		CellStates cellState = field.getCellState(coordinate);
 		ArrayList<Ship> shipsOnField = field.getShips();
-		boolean missShot = true;
-		
-		if (cellState == CellStates.SHIP) {
-			
-			for (Ship ship : field.getShips()) {
-				
-				ArrayList<Cell> cellsOfShip = ship.getCells();
-				
-				if (cellsOfShip.contains(cell)) {
-					missShot = false;
-					cellsOfShip.remove(cell);
-					if (cellsOfShip.isEmpty()) {
-						ship.setSunkShipArea();
-						shipsOnField.remove(ship);
-						cell.setState(CellStates.SUNKSHIP);
-					} else {
-						cell.setState(CellStates.SHOTSHIP);
-					}
-					if (shipsOnField.isEmpty()) {
-						endGame = true;
-					}
-					return missShot;
+
+		for (Ship ship : field.getShips()) {
+
+			ArrayList<Cell> cellsOfShip = ship.getCells();
+
+			if (cellsOfShip.contains(cell)) {
+				cellsOfShip.remove(cell);
+				if (cellsOfShip.isEmpty()) {
+					ship.setState(ShipStates.SUNK);
+					ship.setSunkShipArea();
+					shipsOnField.remove(ship);
+					cell.setState(CellStates.SUNKSHIP);
+				} else {
+					cell.setState(CellStates.SHOTSHIP);
 				}
+				if (shipsOnField.isEmpty()) {
+					endGame = true;
+				}
+				return ship;
 			}
-		} else if (cellState == CellStates.WATER || cellState == CellStates.NEXTTOSHIP
-				|| cellState == CellStates.NEXTTOSUNKSHIP) {
-			cell.setState(CellStates.SHOT);
 		}
-		return missShot;
+		return null;
+	}
+
+	private void setMissShot(SeaField field, Coordinate coordinate) {
+		Cell cell = field.getCell(coordinate);
+		cell.setState(CellStates.SHOT);
+	}
+
+	private boolean missShot(SeaField field, Coordinate coordinate) {
+		CellStates cellState = field.getCellState(coordinate);
+		if (cellState == CellStates.SHIP)
+			return false;
+		return true;
 	}
 }

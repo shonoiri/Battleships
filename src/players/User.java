@@ -6,31 +6,32 @@ import gameequipment.Coordinate;
 import gameequipment.SeaField;
 
 public abstract class User {
-	protected ArrayList<Cell> shotCoordinates = new ArrayList<Cell>();
+	protected ArrayList<Coordinate> shotCoordinates = new ArrayList<Coordinate>();
 	
-	protected ArrayList<Cell> nextToSunkShipCoordinates = new ArrayList<Cell>();
-
-	public ArrayList<Cell> getNextToSunkShipCoordinates() {
-		return nextToSunkShipCoordinates;
-	}
-
-	public void setNextToSunkShipCoordinates(ArrayList<Cell> nextToSunkShipCoordinates) {
-		this.nextToSunkShipCoordinates = nextToSunkShipCoordinates;
-	}
+	protected ArrayList<Coordinate> nextToSunkShipCoordinates = new ArrayList<Coordinate>();
 
 	protected SeaField field;
 	
 	protected String username;
 	
-	public ArrayList<Cell> getShotCoordinates() {
+	public ArrayList<Coordinate> getNextToSunkShipCoordinates() {
+		return nextToSunkShipCoordinates;
+	}
+
+	public void setNextToSunkShipCoordinates(ArrayList<Cell> nextToSunkShipCoordinates) {
+		for (Cell cell : nextToSunkShipCoordinates) {
+			Coordinate coordinate = cell.getCellCoordinate();
+			this.nextToSunkShipCoordinates.add(coordinate);
+		}
+	}
+
+	
+	public ArrayList<Coordinate> getShotCoordinates() {
 		return shotCoordinates;
 	}
 
-	public void setShotCoordinates(ArrayList<Cell> shotCoordinates) {
-		this.shotCoordinates = shotCoordinates;
-	}
-	
 	public void setShotCoordinates(Coordinate coordinate) {
+		this.shotCoordinates.add(coordinate);
 	}
 
 	public SeaField getField() {
@@ -43,11 +44,11 @@ public abstract class User {
 	public void setField(SeaField field) {
 		this.field = field;
 	}
-	
-	public void setUsername(String username){
-		this.username = username;
+
+	public void setUsername() {
 	}
-	public String getUsername(){
+
+	public String getUsername() {
 		return this.username;
 	}
 

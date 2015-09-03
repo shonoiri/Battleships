@@ -10,10 +10,19 @@ import gameequipment.SeaField;
 
 public class Robot extends User {
 	public Robot() {
+		this.field = new SeaField();
+	}
+
+	@Override
+	public void setUsername() {
 		System.out.print("Please enter name of robot ");
 		String username = sc.nextLine();
 		this.username = username;
-		this.field = new SeaField();
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
 	}
 
 	@Override
@@ -60,8 +69,7 @@ public class Robot extends User {
 
 	@Override
 	public void setShotCoordinates(Coordinate coordinate) {
-		Cell cell = this.field.getCell(coordinate);
-		this.shotCoordinates.add(cell);
+		this.shotCoordinates.add(coordinate);
 	}
 
 	@Override
@@ -70,20 +78,30 @@ public class Robot extends User {
 		int orientation = (rand.nextInt(4) + 1);
 		return orientation;
 	}
+	
+	private boolean contains(Coordinate coordinate){
+		for (Coordinate coordinate1 : nextToSunkShipCoordinates) {
+			if((coordinate1.getX() == coordinate.getX()) && (coordinate1.getY() == coordinate.getY()))
+				return true;
+		}
+		for (Coordinate coordinate2 : shotCoordinates) {
+			if((coordinate2.getX() == coordinate.getX()) && (coordinate2.getY() == coordinate.getY()))
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public Coordinate move() {
 		int x;
 		int y;
 		Coordinate coordinate;
-		Cell cell;
 		do {
 			Random rand = new Random();
 			x = rand.nextInt(10) + 0;
 			y = rand.nextInt(10) + 0;
 			coordinate = new Coordinate(x, y);
-			cell = this.field.getCell(coordinate);
-		} while (this.shotCoordinates.contains(cell));
+		} while (contains(coordinate));
 		System.out.println(this.username + " is shoting at " + x + ":" + y);
 		return coordinate;
 	}
