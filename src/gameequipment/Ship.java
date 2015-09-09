@@ -2,7 +2,11 @@ package gameequipment;
 import java.util.ArrayList;
 
 public class Ship {
+<<<<<<< HEAD
 	private ArrayList<Cell> shipCells;
+=======
+	private ArrayList<Cell> cells;
+>>>>>>> 686fa24add6b9100cd7d3c458b20f852e79978a5
 	private ArrayList<Cell> nextToShipCells;
 	private ShipStates state;
 	public Coordinate firstCoordinate, lastCoordinate;
@@ -13,7 +17,11 @@ public class Ship {
 	public void setShip(SeaField field) {
 		Cell cell;
 		Coordinate temp;
+<<<<<<< HEAD
 		this.shipCells = new ArrayList<Cell>();
+=======
+		this.cells = new ArrayList<Cell>();
+>>>>>>> 686fa24add6b9100cd7d3c458b20f852e79978a5
 		this.nextToShipCells = new ArrayList<Cell>();
 
 		for (int a = Math.min(firstCoordinate.getX(), lastCoordinate.getX()); a <= Math.max(firstCoordinate.getX(),
@@ -22,7 +30,11 @@ public class Ship {
 					lastCoordinate.getY()); b++) {
 				temp = new Coordinate(a, b);
 				cell = field.getCell(temp);
+<<<<<<< HEAD
 				shipCells.add(cell);
+=======
+				cells.add(cell);
+>>>>>>> 686fa24add6b9100cd7d3c458b20f852e79978a5
 				cell.setState(CellStates.SHIP);
 			}
 		}
@@ -49,11 +61,19 @@ public class Ship {
 	}
 
 	public ArrayList<Cell> getCells() {
+<<<<<<< HEAD
 		return shipCells;
 	}
 
 	public void setCells(ArrayList<Cell> cells) {
 		this.shipCells = cells;
+=======
+		return cells;
+	}
+
+	public void setCells(ArrayList<Cell> cells) {
+		this.cells = cells;
+>>>>>>> 686fa24add6b9100cd7d3c458b20f852e79978a5
 	}
 
 	public ArrayList<Cell> getNextToShipCells() {
