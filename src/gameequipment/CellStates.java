@@ -1,4 +1,4 @@
 package gameequipment;
 public enum CellStates {
-	SHIP, WATER, SUNKSHIP, NEXTTOSHIP, SHOT;
+	SHIP, WATER, SUNKSHIP, SHOTSHIP, NEXTTOSHIP, SHOT, NEXTTOSUNKSHIP;
 }

@@ -1,4 +1,4 @@
 package gameequipment;
 public enum ShipStates {
-	Sunk, Deaed
+	SUNK, OK
 }

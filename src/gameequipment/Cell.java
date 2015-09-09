@@ -6,11 +6,10 @@ public class Cell {
 
 	public Cell(Coordinate c) {
 		this.c = c;
-		state = CellStates.WATER;
 	}
 
 	public CellStates getState() {
-		return state;
+		return this.state;
 	}
 
 	public void setState(CellStates state) {
@@ -18,7 +17,7 @@ public class Cell {
 	}
 
 	public Coordinate getCellCoordinate() {
-		return c;
+		return this.c;
 	}
 
 	public void setCellCoordinate(Coordinate c) {

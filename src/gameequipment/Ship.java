@@ -2,38 +2,82 @@ package gameequipment;
 import java.util.ArrayList;
 
 public class Ship {
-	private ArrayList<Cell> ship;
-	// private int numberOfLifes;
+	private ArrayList<Cell> shipCells;
+	private ArrayList<Cell> nextToShipCells;
 	private ShipStates state;
-	public Coordinate fc, lc;
+	public Coordinate firstCoordinate, lastCoordinate;
 
-	public Ship(Coordinate fc, SeaField field, Coordinate lc) {
-		this.fc = fc;
-		this.lc = lc;
-		this.ship = new ArrayList<Cell>();
-		for (int a = Math.min(fc.getX(), lc.getX()); a <= Math.max(fc.getX(),
-				lc.getX()); a++) {
-			for (int b = Math.min(fc.getY(), lc.getY()); b <= Math.max(
-					fc.getY(), lc.getY()); b++) {
+	public Ship() {
+	}
 
-				Coordinate temp = new Coordinate(a, b);
-				ship.add(field.getCell(temp));
-				field.getCell(temp).setState(CellStates.SHIP);
+	public void setShip(SeaField field) {
+		Cell cell;
+		Coordinate temp;
+		this.shipCells = new ArrayList<Cell>();
+		this.nextToShipCells = new ArrayList<Cell>();
+
+		for (int a = Math.min(firstCoordinate.getX(), lastCoordinate.getX()); a <= Math.max(firstCoordinate.getX(),
+				lastCoordinate.getX()); a++) {
+			for (int b = Math.min(firstCoordinate.getY(), lastCoordinate.getY()); b <= Math.max(firstCoordinate.getY(),
+					lastCoordinate.getY()); b++) {
+				temp = new Coordinate(a, b);
+				cell = field.getCell(temp);
+				shipCells.add(cell);
+				cell.setState(CellStates.SHIP);
 			}
 		}
 
-		for (int a = Math.min(fc.getX(), lc.getX()) - 1; a <= Math.max(
-				fc.getX(), lc.getX()) + 1; a++) {
-			for (int b = Math.min(fc.getY(), lc.getY()) - 1; b <= Math.max(
-					fc.getY(), lc.getY()) + 1; b++) {
-				Coordinate temp = new Coordinate(a, b);
-				if (temp.inRange()
-						&& field.getCell(temp).getState() != CellStates.SHIP
-						&& field.getCell(temp).getState() != CellStates.NEXTTOSHIP) {
-					field.getCell(temp).setState(CellStates.NEXTTOSHIP);
+		for (int a = Math.min(firstCoordinate.getX(), lastCoordinate.getX()) - 1; a <= Math.max(firstCoordinate.getX(),
+				lastCoordinate.getX()) + 1; a++) {
+			for (int b = Math.min(firstCoordinate.getY(), lastCoordinate.getY()) - 1; b <= Math
+					.max(firstCoordinate.getY(), lastCoordinate.getY()) + 1; b++) {
+				temp = new Coordinate(a, b);
+				if (temp.inRange()) {
+					cell = field.getCell(temp);
+					if (cell.getState() != CellStates.SHIP) {
+						cell.setState(CellStates.NEXTTOSHIP);
+						nextToShipCells.add(cell);
+					}
 				}
 			}
 		}
+	}
+
+	public void setSunkShipArea() {
+		for (Cell cell : nextToShipCells)
+			cell.setState(CellStates.NEXTTOSUNKSHIP);
+	}
+
+	public ArrayList<Cell> getCells() {
+		return shipCells;
+	}
+
+	public void setCells(ArrayList<Cell> cells) {
+		this.shipCells = cells;
+	}
+
+	public ArrayList<Cell> getNextToShipCells() {
+		return nextToShipCells;
+	}
+
+	public void setNextToShipCells(ArrayList<Cell> nextToShipCells) {
+		this.nextToShipCells = nextToShipCells;
+	}
+
+	public Coordinate getFirstCoordinate() {
+		return firstCoordinate;
+	}
+
+	public void setFirstCoordinate(Coordinate firstCoordinate) {
+		this.firstCoordinate = firstCoordinate;
+	}
+
+	public Coordinate getLastCoordinate() {
+		return lastCoordinate;
+	}
+
+	public void setLastCoordinate(Coordinate lastCoordinate) {
+		this.lastCoordinate = lastCoordinate;
 	}
 
 	public ShipStates getState() {
@@ -44,13 +88,5 @@ public class Ship {
 		this.state = state;
 	}
 
-	/*
-	 * public int getNumberOfLifes() { return this.numberOfLifes; }
-	 * 
-	 * public void setNumberOfLifes(int number) { this.numberOfLifes = number; }
-	 */
 
-	public ArrayList<Cell> getShip() {
-		return this.ship;
-	}
 }

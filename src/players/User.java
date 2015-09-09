@@ -1,24 +1,54 @@
 package players;
+import java.util.ArrayList;
+
+import gameequipment.Cell;
 import gameequipment.Coordinate;
 import gameequipment.SeaField;
 
-public class User {
+public abstract class User {
+	protected ArrayList<Coordinate> shotCoordinates = new ArrayList<Coordinate>();
+	
+	protected ArrayList<Coordinate> nextToSunkShipCoordinates = new ArrayList<Coordinate>();
+
 	protected SeaField field;
 	
 	protected String username;
+	
+	public ArrayList<Coordinate> getNextToSunkShipCoordinates() {
+		return nextToSunkShipCoordinates;
+	}
+
+	public void setNextToSunkShipCoordinates(ArrayList<Cell> nextToSunkShipCoordinates) {
+		for (Cell cell : nextToSunkShipCoordinates) {
+			Coordinate coordinate = cell.getCellCoordinate();
+			this.nextToSunkShipCoordinates.add(coordinate);
+		}
+	}
+
+	
+	public ArrayList<Coordinate> getShotCoordinates() {
+		return shotCoordinates;
+	}
+
+	public void setShotCoordinates(Coordinate coordinate) {
+		this.shotCoordinates.add(coordinate);
+	}
 
 	public SeaField getField() {
 		return this.field;
 	}
 
+	public void showField() {
+	}
+
 	public void setField(SeaField field) {
 		this.field = field;
 	}
-	
-	public void setUsername(String username){
-		this.username = username;
+
+	public void setUsername() {
 	}
-	public String getUsername(){
+
+	public String getUsername() {
 		return this.username;
 	}
 
@@ -27,11 +57,15 @@ public class User {
 	}
 
 	public void missShot() {
-
+		System.out.println(this.username + " missed shot ");
 	}
 
 	public void goodShot() {
-
+		System.out.println(this.username + " made shot");
+	}
+	
+	public void sunkShip(){
+		System.out.println("Ship had sunk");
 	}
 
 	public int askOrientation() {
