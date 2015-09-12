@@ -1,5 +1,6 @@
 package players;
 import java.util.ArrayList;
+import java.util.List;
 
 import gameequipment.Cell;
 import gameequipment.Coordinate;
@@ -18,8 +19,8 @@ public abstract class User {
 		return nextToSunkShipCoordinates;
 	}
 
-	public void setNextToSunkShipCoordinates(ArrayList<Cell> nextToSunkShipCoordinates) {
-		for (Cell cell : nextToSunkShipCoordinates) {
+	public void setNextToSunkShipCoordinates(List<Cell> list) {
+		for (Cell cell : list) {
 			Coordinate coordinate = cell.getCellCoordinate();
 			this.nextToSunkShipCoordinates.add(coordinate);
 		}

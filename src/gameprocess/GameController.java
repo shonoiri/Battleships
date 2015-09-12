@@ -1,6 +1,6 @@
 package gameprocess;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import gameequipment.Cell;
@@ -96,7 +96,7 @@ public class GameController {
 		boolean setShip;
 		Ship ship;
 		SeaField playerField = player.getField();
-		ArrayList<Ship> playersShips = playerField.getShips();
+		List<Ship> playersShips = playerField.getShips();
 
 		for (int i = 1; i <= 4; i++) {
 			for (int j = 5 - i; j >= 1; j--) {
@@ -220,11 +220,11 @@ public class GameController {
 
 	private Ship setGoodShot(SeaField field, Coordinate coordinate) {
 		Cell cell = field.getCell(coordinate);
-		ArrayList<Ship> shipsOnField = field.getShips();
+		List<Ship> shipsOnField = field.getShips();
 
 		for (Ship ship : field.getShips()) {
 
-			ArrayList<Cell> cellsOfShip = ship.getCells();
+			List<Cell> cellsOfShip = ship.getCells();
 
 			if (cellsOfShip.contains(cell)) {
 				cellsOfShip.remove(cell);

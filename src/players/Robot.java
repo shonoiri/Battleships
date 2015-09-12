@@ -1,5 +1,6 @@
 package players;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -10,28 +11,6 @@ import gameequipment.Cell;
 import gameequipment.CellStates;
 import gameequipment.Coordinate;
 import gameequipment.SeaField;
-
-<<<<<<< HEAD
-public class Robot extends User {
-	private Set<Cell> allCellsOnField = new HashSet<Cell>();
-
-	{
-		Coordinate coordinate;
-		Cell cell;
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				coordinate = new Coordinate(i, j);
-				cell = new Cell(coordinate);
-				allCellsOnField.add(cell);
-			}
-		}
-	}
-=======
-import gameequipment.Cell;
-import gameequipment.CellStates;
-import gameequipment.Coordinate;
-import gameequipment.SeaField;
->>>>>>> 686fa24add6b9100cd7d3c458b20f852e79978a5
 
 public class Robot extends User {
 	public Robot() {
@@ -79,6 +58,7 @@ public class Robot extends User {
 	}
 
 	private Scanner sc = new Scanner(System.in);
+	private Set<Cell> allCellsOnField;
 
 	@Override
 	public Coordinate askCoordinateOfShip() {
@@ -118,25 +98,13 @@ public class Robot extends User {
 
 	@Override
 	public Coordinate move() {
-<<<<<<< HEAD
+
 		Cell cell;
 		Iterator<Cell> iterator = allCellsOnField.iterator();
 		cell = iterator.next();
 		allCellsOnField.remove(cell);
 		System.out.println(this.username + " is shoting at " + cell.getCellCoordinate().getX() + ":" + cell.getCellCoordinate().getY());
 		return cell.getCellCoordinate();
-=======
-		int x;
-		int y;
-		Coordinate coordinate;
-		do {
-			Random rand = new Random();
-			x = rand.nextInt(10) + 0;
-			y = rand.nextInt(10) + 0;
-			coordinate = new Coordinate(x, y);
-		} while (contains(coordinate));
-		System.out.println(this.username + " is shoting at " + x + ":" + y);
-		return coordinate;
->>>>>>> 686fa24add6b9100cd7d3c458b20f852e79978a5
+
 	}
 }
